@@ -345,9 +345,13 @@ function editTech(t,from){
 }
 $("q").oninput=renderList;$("add").onclick=()=>tab==="n"?editTech(null):edit(null);chips();renderList();
 (async()=>{
-  try{const u=await claude.use("user");if(u){uapi=u;me=await u.id()}}catch(e){}
-  try{assets=await claude.use("assets")}catch(e){}
-  try{db=await claude.use("db")}catch(e){}
+
+
+  const supabase = window.supabase;
+const supabaseUrl = 'HIER_DEINE_PROJEKT_URL';
+const supabaseAnonKey = 'HIER_DEIN_ANON_KEY';
+const db = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
   gateInit();
   if(!db){renderList();return}
   db.collection("techniques").orderBy("name","asc").onSnapshot(s=>{techniques=s.docs.map(d=>({id:d.id,...(typeof d.data==="function"?d.data():d.data)}));renderList();if(!$("view").classList.contains("hide")){if(curT)openTech(curT.id,curFrom);else if(cur)open(cur.id)}},()=>{});
