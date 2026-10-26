@@ -18,7 +18,7 @@ textarea{width:100%;min-height:100px;resize:vertical}input[type=text],input[type
 button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
 .bar{display:flex;gap:8px;margin-bottom:10px}.bar input{flex:1}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
-.chip{white-space:nowrap;border-radius:99px;padding:5px 13px;font-size:.88rem;background:var(--card);border:1px solid var(--bd)}
+.chip{white-space:nowrap;border-radius:99px;padding:5px 13px;font-size:.88rem;background:var(--card);border:1px solid var(--bd);cursor:pointer}
 .chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
@@ -43,18 +43,27 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
     <h1>🎩 ZauberWiki</h1>
     <p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p>
     <div id="who">
-      <span>👤 Linus · Admin</span>
-      <button onclick="alert('Abgemeldet!')">Abmelden</button>
-      <button style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Codes</button>
-      <button>⚙️ Verwalten</button>
+      <span id="adminName">👤 Linus · Admin</span>
+      <button id="btnAuth">Abmelden</button>
+      <button id="btnCodes" style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Codes</button>
+      <button id="btnManage">⚙️ Verwalten</button>
     </div>
   </div>
 </div>
 <div id="app" class="w">
   <div id="list">
-    <div class="bar"><input id="q" type="search" placeholder="Tricks durchsuchen …"><button class="p" id="add">+ Neu</button></div>
-    <div class="chips" id="tabs"><button class="chip on">🎩 Tricks</button><button class="chip">🧩 Techniken</button><button class="chip">🧰 Gimmicks</button></div>
-    <div class="chips" id="chips"><button class="chip on">Alle</button><button class="chip">🃏 Karten</button><button class="chip">🪙 Münzen</button><button class="chip">🪢 Seil & Gummiband</button><button class="chip">🧠 Mentalmagie</button></div>
+    <div class="bar"><input id="q" type="search" placeholder="Durchsuchen …"><button class="p" id="add">+ Neu</button></div>
+    
+    <!-- Hauptreiter -->
+    <div class="chips" id="mainTabs">
+      <button class="chip on" data-tab="tricks">🎩 Tricks</button>
+      <button class="chip" data-tab="techniques">🧩 Techniken</button>
+      <button class="chip" data-tab="gimmicks">🧰 Gimmicks</button>
+    </div>
+    
+    <!-- Requisiten-Filter (wird per JavaScript befüllt) -->
+    <div class="chips" id="filterChips"></div>
+    
     <div class="grid" id="items"></div>
   </div>
   <div id="view" class="hide"></div>
@@ -63,40 +72,211 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
 <button id="cb" class="p">💬 Chat</button>
 <script>
 const $=id=>document.getElementById(id);
-const DEFAULT_TRICKS = [
-  {id:"d1",name:"Das springende Gummiband",cat:"Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden."},
-  {id:"d2",name:"Der 21-Karten-Trick",cat:"Karten",diff:"Anfänger",eff:"🧠 Gedankenlesen",summary:"Ein mathematischer Klassiker, bei dem du die gewählte Karte des Zuschauers errätst."}
+
+// Beispiel-Startdaten für alle drei Kategorien
+const DEFAULT_DATA = [
+  {id:"d1",type:"tricks",name:"Das springende Gummiband",cat:"Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden.",explanation:"Spanne das Band um Zeige- und Mittelfinger. Beuge beim Schließen der Hand heimlich alle Fingerspitzen in das Band hinein..."},
+  {id:"d2",type:"tricks",name:"Der 21-Karten-Trick",cat:"Karten",diff:"Anfänger",eff:"🧠 Gedankenlesen",summary:"Ein mathematischer Klassiker, bei dem du die gewählte Karte des Zuschauers errätst.",explanation:"Lege die Karten dreimal in 3 Reihen aus. Die Reihe mit der Zuschauerkarte muss beim Einsammeln immer in die Mitte der Stapel gelegt werden..."},
+  {id:"d3",type:"techniques",name:"Der Double Lift (Doppelabheben)",cat:"Karten",diff:"Fortgeschritten",eff:"🧩 Kartentechnik",summary:"Zwei Karten unbemerkt als eine einzige Karte abheben und vorzeigen.",explanation:"Nutze den kleinen Finger der Haltehand, um unbemerkt eine kleine Lücke (Pinky Count) unter den obersten beiden Karten zu bilden..."},
+  {id:"d4",type:"gimmicks",name:"Die Daumenspitze (Thumb Tip)",cat:"Sonstiges",diff:"Anfänger",eff:"🧰 Hilfsmittel",summary:"Ein künstlicher Daumen, um Tücher oder Flüssigkeiten verschwinden zu lassen.",explanation:"Das Hilfsmittel wird auf den Daumen gesteckt. Beim Verschwindenlassen schiebst du das Tuch in die Daumenspitze in deiner Faust..."}
 ];
+
+let currentTab = "tricks";
+let currentFilter = "Alle";
+let isAdmin = true;
+
+const CATEGORIES = {
+  tricks: ["Alle", "🃏 Karten", "🪙 Münzen", "🪢 Seil & Gummiband", "🧠 Mentalmagie", "✨ Sonstiges"],
+  techniques: ["Alle", "🃏 Griffe & Schnitte", "🃏 Falschmischen", "🪙 Münz-Palmierungen"],
+  gimmicks: ["Alle", "Prepräparierte Karten", "Unsichtbare Fäden", "🧰 Alltags-Hilfsmittel"]
+};
+
 function show(w){$("list").classList.toggle("hide",w!=="list");$("view").classList.toggle("hide",w!=="view");$("form").classList.toggle("hide",w!=="form")}
-function loadTricks(){
-  const itemsContainer=$("items");itemsContainer.innerHTML="";const searchWord=$("q").value.toLowerCase();
-  const savedData=localStorage.getItem("zauber_tricks");const tricks=savedData?JSON.parse(savedData):DEFAULT_TRICKS;
-  const filtered=tricks.filter(t=>t.name.toLowerCase().includes(searchWord));
-  if(filtered.length===0){itemsContainer.innerHTML="<p class='mu'>Keine Tricks gefunden.</p>";return}
-  filtered.forEach(trick=>{
-    const card=document.createElement("div");card.className="c";
-    let icon="✨";if(trick.cat==="Karten")icon="🃏";if(trick.cat==="Münzen")icon="🪙";if(trick.cat==="Seil & Gummiband")icon="🪢";if(trick.cat==="Mentalmagie")icon="🧠";
-    card.innerHTML=`<div style="font-size:1.5rem; margin-bottom:4px;">${icon}</div><h3>${trick.name}</h3><div style="margin-top:4px;"><span class="b">${trick.cat||'Sonstiges'}</span><span class="b d0">${trick.diff||'Anfänger'}</span></div>${trick.eff?`<div style="margin-top:4px;"><span class="b" style="background:#fff2cc; color:#b45f06;">${trick.eff}</span></div>`:''}<p style="margin-top:6px;">${trick.summary||'Keine Beschreibung vorhanden.'}</p>`;
-    card.onclick=()=>openTrick(trick);itemsContainer.appendChild(card);
+
+// Baut die Filter-Chips dynamisch passend zum gewählten Reiter auf
+function renderFilterChips() {
+  const container = $("filterChips");
+  container.innerHTML = "";
+  const list = CATEGORIES[currentTab] || ["Alle"];
+  
+  list.forEach(catName => {
+    const cleanName = catName.replace(/[^\w\säöüÄÖÜ&]/g, '').trim(); // Entfernt Emojis für den Abgleich
+    const isSelected = currentFilter === catName || (currentFilter === "Alle" && catName === "Alle");
+    
+    const btn = document.createElement("button");
+    btn.className = `chip ${isSelected ? 'on' : ''}`;
+    btn.textContent = catName;
+    btn.onclick = () => {
+      currentFilter = catName;
+      renderFilterChips();
+      loadItems();
+    };
+    container.appendChild(btn);
   });
 }
-function openTrick(trick){
-  $("view").innerHTML=`<div class='page'><h2>${trick.name}</h2><p class='lead'><b>Kategorie:</b> ${trick.cat||'Sonstiges'} | <b>Schwierigkeit:</b> ${trick.diff||'Anfänger'}</p><p class='lead'>${trick.summary||''}</p><h4>Erklärung & Geheimnis</h4><div class='tip'>${trick.explanation||'Du hast das Geheimnis für diesen Trick noch nicht aufgeschrieben. Klicke auf Bearbeiten, um es hinzuzufügen!'}</div><div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div></div>`;
-  show("view");$("vback").onclick=()=>show("list");
+
+// Lädt die passenden Elemente (Tricks, Techniken oder Gimmicks)
+function loadItems(){
+  const itemsContainer = $("items");
+  itemsContainer.innerHTML = "";
+  const searchWord = $("q").value.toLowerCase();
+  
+  const savedData = localStorage.getItem("zauber_wiki_data");
+  const allItems = savedData ? JSON.parse(savedData) : DEFAULT_DATA;
+  
+  // 1. Nach Hauptreiter filtern (Tricks vs Techniken vs Gimmicks)
+  let filtered = allItems.filter(item => item.type === currentTab);
+  
+  // 2. Nach Suchbegriff filtern
+  if (searchWord) {
+    filtered = filtered.filter(item => item.name.toLowerCase().includes(searchWord));
+  }
+  
+  // 3. Nach Unterkategorie-Chip filtern
+  if (currentFilter !== "Alle") {
+    filtered = filtered.filter(item => item.cat && currentFilter.includes(item.cat));
+  }
+  
+  if(filtered.length === 0){
+    itemsContainer.innerHTML = "<p class='mu'>In dieser Kategorie befinden sich noch keine Einträge.</p>";
+    return;
+  }
+  
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "c";
+    let icon = "✨";
+    if (item.cat && item.cat.includes("Karten")) icon = "🃏";
+    if (item.cat && item.cat.includes("Münzen")) icon = "🪙";
+    if (item.cat && item.cat.includes("Seil")) icon = "🪢";
+    if (item.cat && item.cat.includes("Mental")) icon = "🧠";
+
+    card.innerHTML = `
+      <div style="font-size:1.5rem; margin-bottom:4px;">${icon}</div>
+      <h3>${item.name}</h3>
+      <div style="margin-top:4px;">
+        <span class="b">${item.cat || 'Allgemein'}</span>
+        <span class="b d0">${item.diff || 'Anfänger'}</span>
+      </div>
+      ${item.eff ? `<div style="margin-top:4px;"><span class="b" style="background:#fff2cc; color:#b45f06;">${item.eff}</span></div>` : ''}
+      <p style="margin-top:6px;">${item.summary || 'Keine Beschreibung vorhanden.'}</p>
+    `;
+    card.onclick = () => openTrick(item);
+    itemsContainer.appendChild(card);
+  });
 }
-$("q").oninput=()=>loadTricks();
-$("add").onclick=()=>{
-  $("form").innerHTML=`<div class='page'><h2>Neuen Zaubertrick hinzufügen</h2><label>Name des Tricks</label><input id='fn' type='text' placeholder='z.B. French Drop' style='width:100%; margin-bottom:10px;'><label>Kategorie</label><select id='fc' style='width:100%; margin-bottom:10px;'><option value="Karten">🃏 Karten</option><option value="Münzen">🪙 Münzen</option><option value="Seil & Gummiband">🪢 Seil & Gummiband</option><option value="Mentalmagie">🧠 Mentalmagie</option><option value="Sonstiges">✨ Sonstiges</option></select><label>Effekt-Art</label><input id='feff' type='text' placeholder='z.B. Teleportation, Gedankenlesen' style='width:100%; margin-bottom:10px;'><label>Der Effekt (Was sieht der Zuschauer?)</label><textarea id='fs' placeholder='z.B. Eine Münze verschwindet spurlos...'></textarea><label>Das Geheimnis (Schritt-für-Schritt-Erklärung)</label><textarea id='fe' placeholder='Wie funktioniert der Trick im Detail?'></textarea><div class='acts' style='margin-top:15px;'><button class='p' id='fsa'>Lokal speichern</button><button id='fca'>Abbrechen</button></div></div>`;
-  show("form");$("fca").onclick=()=>show("list");
-  $("fsa").onclick=()=>{
-    const name=$("fn").value.trim();const category=$("fc").value;const effectArt=$("feff").value.trim();const summary=$("fs").value.trim();const explanation=$("fe").value.trim();
-    if(!name)return alert("Bitte gib einen Namen für den Trick ein!");
-    const savedData=localStorage.getItem("zauber_tricks");let tricks=savedData?JSON.parse(savedData):[...DEFAULT_TRICKS];
-    tricks.push({id:"t_"+Date.now(),name:name,cat:category,diff:"Anfänger",eff:effectArt?"✨ "+effectArt:"",summary:summary,explanation:explanation});
-    localStorage.setItem("zauber_tricks",JSON.stringify(tricks));alert("Erfolgreich gespeichert!");show("list");loadTricks();
+
+function openTrick(item){
+  $("view").innerHTML = `
+    <div class='page'>
+      <h2>${item.name}</h2>
+      <p class='lead'><b>Bereich:</b> ${item.type.toUpperCase()} | <b>Kategorie:</b> ${item.cat || 'Allgemein'} | <b>Schwierigkeit:</b> ${item.diff || 'Anfänger'}</p>
+      <p class='lead'>${item.summary || ''}</p>
+      <h4>Erklärung & Anleitung</h4>
+      <div class='tip'>${item.explanation || 'Keine Erklärung vorhanden.'}</div>
+      <div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div>
+    </div>
+  `;
+  show("view");
+  $("vback").onclick = () => show("list");
+}
+
+// Event-Listener für die Hauptreiter (Tricks, Techniken, Gimmicks)
+document.querySelectorAll("#mainTabs .chip").forEach(btn => {
+  btn.onclick = (e) => {
+    document.querySelectorAll("#mainTabs .chip").forEach(b => b.classList.remove("on"));
+    e.target.classList.add("on");
+    currentTab = e.target.getAttribute("data-tab");
+    currentFilter = "Alle"; // Filter zurücksetzen beim Tab-Wechsel
+    renderFilterChips();
+    loadItems();
+  };
+});
+
+$("q").oninput = () => loadItems();
+
+// Formular zum Hinzufügen (passt sich dynamisch dem aktiven Tab an!)
+$("add").onclick = () => {
+  let selectOptions = "";
+  (CATEGORIES[currentTab] || []).forEach(o => {
+    if(o !== "Alle") selectOptions += `<option value="${o}">${o}</option>`;
+  });
+
+  $("form").innerHTML = `
+    <div class='page'>
+      <h2>Neu hinzufügen zu: ${currentTab.toUpperCase()}</h2>
+      <label>Name / Bezeichnung</label>
+      <input id='fn' type='text' placeholder='Name eingeben...' style='width:100%; margin-bottom:10px;'>
+      
+      <label>Unterkategorie</label>
+      <select id='fc' style='width:100%; margin-bottom:10px;'>${selectOptions}</select>
+
+      <label>Effekt / Markierung</label>
+      <input id='feff' type='text' placeholder='z.B. Teleportation, Falschgriff' style='width:100%; margin-bottom:10px;'>
+
+      <label>Kurzbeschreibung (Effekt)</label>
+      <textarea id='fs' placeholder='Was passiert oder wofür wird es genutzt?'></textarea>
+      
+      <label>Ausführliche Anleitung / Geheimnis</label>
+      <textarea id='fe' placeholder='Schritt-für-Schritt Erklärung...'></textarea>
+      
+      <div class='acts' style='margin-top:15px;'>
+        <button class='p' id='fsa'>In Cloud speichern</button>
+        <button id='fca'>Abbrechen</button>
+      </div>
+    </div>
+  `;
+  show("form");
+  
+  $("fca").onclick = () => show("list");
+  $("fsa").onclick = () => {
+    const name = $("fn").value.trim();
+    if(!name) return alert("Bitte einen Namen eingeben!");
+    
+    const savedData = localStorage.getItem("zauber_wiki_data");
+    let allData = savedData ? JSON.parse(savedData) : [...DEFAULT_DATA];
+    
+    allData.push({
+      id: "item_" + Date.now(),
+      type: currentTab,
+      name: name,
+      cat: $("fc").value,
+      diff: "Anfänger",
+      eff: $("feff").value.trim() ? "✨ " + $("feff").value.trim() : "",
+      summary: $("fs").value.trim(),
+      explanation: $("fe").value.trim()
+    });
+    
+    localStorage.setItem("zauber_wiki_data", JSON.stringify(allData));
+    alert("Erfolgreich hinzugefügt!");
+    show("list");
+    loadItems();
   };
 };
-window.addEventListener("DOMContentLoaded",()=>loadTricks());
+
+// Admin-Knöpfe oben funktionsfähig machen
+$("btnAuth").onclick = () => {
+  isAdmin = !isAdmin;
+  if(!isAdmin) {
+    $("adminName").textContent = "👤 Gast-Modus";
+    $("btnAuth").textContent = "Anmelden";
+    $("btnCodes").classList.add("hide");
+    $("btnManage").classList.add("hide");
+  } else {
+    $("adminName").textContent = "👤 Linus · Admin";
+    $("btnAuth").textContent = "Abmelden";
+    $("btnCodes").classList.remove("hide");
+    $("btnManage").classList.remove("hide");
+  }
+};
+$("btnCodes").onclick = () => alert("Deine geheimen Admin-Zugangscodes lauten: [ZYLINDER_2026], [ABRACADABRA]");
+$("btnManage").onclick = () => alert("Einstellungs-Verwaltung geöffnet! Hier kannst du später Nutzer sperren oder Kanäle moderieren.");
+
+// Beim Start direkt alles initialisieren
+window.addEventListener("DOMContentLoaded", () => {
+  renderFilterChips();
+  loadItems();
+});
 </script>
 </body>
 </html>
