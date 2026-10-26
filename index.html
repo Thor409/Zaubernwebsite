@@ -17,144 +17,86 @@ input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card)
 textarea{width:100%;min-height:100px;resize:vertical}input[type=text],input[type=url],input[type=search]{width:100%}
 button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
 .bar{display:flex;gap:8px;margin-bottom:10px}.bar input{flex:1}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.chip{white-space:nowrap;border-radius:99px;padding:5px 13px;font-size:.88rem;background:var(--card);border:1px solid var(--bd)}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
 .c:hover{border-color:var(--ac);box-shadow:0 4px 14px rgba(107,63,160,.15)}
-.c h3{margin:0;font-size:1.05rem}.c p{margin:0;color:var(--mu);font-size:.9rem}
+.b{display:inline-block;border-radius:99px;padding:1px 10px;font-size:.78rem;margin-right:6px;background:var(--ac2);color:var(--ac)}
+.d0{background:#e3f4ea;color:var(--ok)}.d1{background:#fbf0dc;color:var(--wa)}.d2{background:#f9e3e8;color:var(--er)}
 .page{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin-top:10px}
 .page h2{margin:6px 0 8px;font-family:Georgia,serif;font-size:1.7rem}
 .mu{color:var(--mu);font-size:.85rem}.hide{display:none}.acts{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+#cb{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5;border-radius:99px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#cp{position:fixed;left:14px;right:14px;max-width:380px;margin-left:auto;bottom:calc(64px + env(safe-area-inset-bottom,0px));height:min(60vh,460px);background:var(--card);border:1px solid var(--bd);border-radius:16px;display:flex;flex-direction:column;z-index:5;box-shadow:0 8px 28px rgba(0,0,0,.28);overflow:hidden}
+#cp.hide{display:none}
+#cm{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
+.cin{display:flex;gap:6px;padding:8px;border-top:1px solid var(--bd)}.cin input{flex:1;min-width:0}
+#who{font-size:.9rem;background:rgba(255,255,255,0.15);padding:6px 12px;border-radius:20px;display:inline-flex;gap:8px;align-items:center;margin-top:8px}
+#who button{padding:2px 10px;font-size:.8rem;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;}
 </style>
 </head>
 <body>
-<div class="hero"><div><h1>🎩 ZauberWiki</h1><p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p></div></div>
-<div id="gate" class="w hide"><p class="mu">Lade …</p></div>
-
+<div class="hero">
+  <div>
+    <h1>🎩 ZauberWiki</h1>
+    <p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p>
+    <div id="who">
+      <span>👤 Linus · Admin</span>
+      <button onclick="alert('Abgemeldet!')">Abmelden</button>
+      <button style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Codes</button>
+      <button>⚙️ Verwalten</button>
+    </div>
+  </div>
+</div>
 <div id="app" class="w">
   <div id="list">
-    <div class="bar">
-      <input id="q" type="search" placeholder="Tricks durchsuchen …">
-      <button class="p" id="add">+ Neu</button>
-    </div>
+    <div class="bar"><input id="q" type="search" placeholder="Tricks durchsuchen …"><button class="p" id="add">+ Neu</button></div>
+    <div class="chips" id="tabs"><button class="chip on">🎩 Tricks</button><button class="chip">🧩 Techniken</button><button class="chip">🧰 Gimmicks</button></div>
+    <div class="chips" id="chips"><button class="chip on">Alle</button><button class="chip">🃏 Karten</button><button class="chip">🪙 Münzen</button><button class="chip">🪢 Seil & Gummiband</button><button class="chip">🧠 Mentalmagie</button></div>
     <div class="grid" id="items"></div>
   </div>
   <div id="view" class="hide"></div>
   <div id="form" class="hide"></div>
 </div>
-
-<script src="https://jsdelivr.net"></script>
+<button id="cb" class="p">💬 Chat</button>
 <script>
 const $=id=>document.getElementById(id);
-
-const supabaseUrl = 'https://supabase.co';
-const supabaseAnonKey = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5dGx5bGNnZ2Z6cXhibGNhcGRxcSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzMxNDIwNjc3LCdleHAiOjIwNDcwOTY2Nzd9.U0yG6pC7Lsk_UuD32p9p66XG_i43uG7_8x4Wv_L-XkY';
-const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
-
-function show(w) {
-  $("list").classList.toggle("hide", w !== "list");
-  $("view").classList.toggle("hide", w !== "view");
-  $("form").classList.toggle("hide", w !== "form");
-}
-
-async function loadTricks() {
-  $("items").innerHTML = "<p class='mu'>Tricks werden geladen ...</p>";
-  const searchWord = $("q").value.toLowerCase();
-  
-  const { data, error } = await supabaseClient
-    .from('techniques')
-    .select('*')
-    .order('created_at', { ascending: false });
-    
-  if (error) {
-    $("items").innerHTML = "<p style='color:var(--er)'>Fehler beim Laden der Datenbank!</p>";
-    return;
-  }
-  
-  $("items").innerHTML = "";
-  const filtered = data.filter(t => t.name.toLowerCase().includes(searchWord));
-  
-  if(filtered.length === 0) {
-    $("items").innerHTML = "<p class='mu'>Noch keine Tricks vorhanden. Klicke auf '+ Neu' um den ersten zu erstellen!</p>";
-    return;
-  }
-  
-  filtered.forEach(trick => {
-    const card = document.createElement("div");
-    card.className = "c";
-    card.innerHTML = `<h3>✨ ${trick.name}</h3><p>${trick.summary || 'Keine Beschreibung'}</p>`;
-    card.onclick = () => openTrick(trick);
-    $("items").appendChild(card);
+const DEFAULT_TRICKS = [
+  {id:"d1",name:"Das springende Gummiband",cat:"Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden."},
+  {id:"d2",name:"Der 21-Karten-Trick",cat:"Karten",diff:"Anfänger",eff:"🧠 Gedankenlesen",summary:"Ein mathematischer Klassiker, bei dem du die gewählte Karte des Zuschauers errätst."}
+];
+function show(w){$("list").classList.toggle("hide",w!=="list");$("view").classList.toggle("hide",w!=="view");$("form").classList.toggle("hide",w!=="form")}
+function loadTricks(){
+  const itemsContainer=$("items");itemsContainer.innerHTML="";const searchWord=$("q").value.toLowerCase();
+  const savedData=localStorage.getItem("zauber_tricks");const tricks=savedData?JSON.parse(savedData):DEFAULT_TRICKS;
+  const filtered=tricks.filter(t=>t.name.toLowerCase().includes(searchWord));
+  if(filtered.length===0){itemsContainer.innerHTML="<p class='mu'>Keine Tricks gefunden.</p>";return}
+  filtered.forEach(trick=>{
+    const card=document.createElement("div");card.className="c";
+    let icon="✨";if(trick.cat==="Karten")icon="🃏";if(trick.cat==="Münzen")icon="🪙";if(trick.cat==="Seil & Gummiband")icon="🪢";if(trick.cat==="Mentalmagie")icon="🧠";
+    card.innerHTML=`<div style="font-size:1.5rem; margin-bottom:4px;">${icon}</div><h3>${trick.name}</h3><div style="margin-top:4px;"><span class="b">${trick.cat||'Sonstiges'}</span><span class="b d0">${trick.diff||'Anfänger'}</span></div>${trick.eff?`<div style="margin-top:4px;"><span class="b" style="background:#fff2cc; color:#b45f06;">${trick.eff}</span></div>`:''}<p style="margin-top:6px;">${trick.summary||'Keine Beschreibung vorhanden.'}</p>`;
+    card.onclick=()=>openTrick(trick);itemsContainer.appendChild(card);
   });
 }
-
-function openTrick(trick) {
-  $("view").innerHTML = `
-    <div class='page'>
-      <h2>${trick.name}</h2>
-      <p class='lead'>${trick.summary || ''}</p>
-      <h4>Erklärung & Geheimnis</h4>
-      <div class='tip'>${trick.explanation || 'Keine Erklärung vorhanden.'}</div>
-      <div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div>
-    </div>
-  `;
-  show("view");
-  $("vback").onclick = () => show("list");
+function openTrick(trick){
+  $("view").innerHTML=`<div class='page'><h2>${trick.name}</h2><p class='lead'><b>Kategorie:</b> ${trick.cat||'Sonstiges'} | <b>Schwierigkeit:</b> ${trick.diff||'Anfänger'}</p><p class='lead'>${trick.summary||''}</p><h4>Erklärung & Geheimnis</h4><div class='tip'>${trick.explanation||'Du hast das Geheimnis für diesen Trick noch nicht aufgeschrieben. Klicke auf Bearbeiten, um es hinzuzufügen!'}</div><div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div></div>`;
+  show("view");$("vback").onclick=()=>show("list");
 }
-
-$("q").oninput = () => loadTricks();
-
-$("add").onclick = () => {
-  $("form").innerHTML = `
-    <div class='page'>
-      <h2>Neuen Zaubertrick hinzufügen</h2>
-      <label>Name des Tricks</label>
-      <input id='fn' type='text' placeholder='z.B. French Drop' style='width:100%; margin-bottom:10px;'>
-      <label>Der Effekt (Was sieht der Zuschauer?)</label>
-      <textarea id='fs' placeholder='z.B. Eine Münze verschwindet spurlos aus der Hand...'></textarea>
-      <label>Das Geheimnis (Schritt-für-Schritt-Erklärung)</label>
-      <textarea id='fe' placeholder='Wie funktioniert der Trick im Detail?'></textarea>
-      <div class='acts' style='margin-top:15px;'>
-        <button class='p' id='fsa'>In Cloud speichern</button>
-        <button id='fca'>Abbrechen</button>
-      </div>
-    </div>
-  `;
-  show("form");
-  
-  $("fca").onclick = () => show("list");
-  $("fsa").onclick = async () => {
-    const name = $("fn").value.trim();
-    const summary = $("fs").value.trim();
-    const explanation = $("fe").value.trim();
-    
-    if(!name) return alert("Bitte gib einen Namen für den Trick ein!");
-    
-    $("fsa").disabled = true;
-    $("fsa").textContent = "Wird gespeichert ...";
-    
-    const { error } = await supabaseClient.from('techniques').insert([{
-      id: "t_" + Date.now(),
-      name: name,
-      summary: summary,
-      explanation: explanation
-    }]);
-    
-    if (error) {
-      alert("Fehler beim Speichern: " + error.message);
-      $("fsa").disabled = false;
-      $("fsa").textContent = "In Cloud speichern";
-    } else {
-      alert("Erfolgreich in deiner Online-Datenbank gespeichert!");
-      show("list");
-      loadTricks();
-    }
+$("q").oninput=()=>loadTricks();
+$("add").onclick=()=>{
+  $("form").innerHTML=`<div class='page'><h2>Neuen Zaubertrick hinzufügen</h2><label>Name des Tricks</label><input id='fn' type='text' placeholder='z.B. French Drop' style='width:100%; margin-bottom:10px;'><label>Kategorie</label><select id='fc' style='width:100%; margin-bottom:10px;'><option value="Karten">🃏 Karten</option><option value="Münzen">🪙 Münzen</option><option value="Seil & Gummiband">🪢 Seil & Gummiband</option><option value="Mentalmagie">🧠 Mentalmagie</option><option value="Sonstiges">✨ Sonstiges</option></select><label>Effekt-Art</label><input id='feff' type='text' placeholder='z.B. Teleportation, Gedankenlesen' style='width:100%; margin-bottom:10px;'><label>Der Effekt (Was sieht der Zuschauer?)</label><textarea id='fs' placeholder='z.B. Eine Münze verschwindet spurlos...'></textarea><label>Das Geheimnis (Schritt-für-Schritt-Erklärung)</label><textarea id='fe' placeholder='Wie funktioniert der Trick im Detail?'></textarea><div class='acts' style='margin-top:15px;'><button class='p' id='fsa'>Lokal speichern</button><button id='fca'>Abbrechen</button></div></div>`;
+  show("form");$("fca").onclick=()=>show("list");
+  $("fsa").onclick=()=>{
+    const name=$("fn").value.trim();const category=$("fc").value;const effectArt=$("feff").value.trim();const summary=$("fs").value.trim();const explanation=$("fe").value.trim();
+    if(!name)return alert("Bitte gib einen Namen für den Trick ein!");
+    const savedData=localStorage.getItem("zauber_tricks");let tricks=savedData?JSON.parse(savedData):[...DEFAULT_TRICKS];
+    tricks.push({id:"t_"+Date.now(),name:name,cat:category,diff:"Anfänger",eff:effectArt?"✨ "+effectArt:"",summary:summary,explanation:explanation});
+    localStorage.setItem("zauber_tricks",JSON.stringify(tricks));alert("Erfolgreich gespeichert!");show("list");loadTricks();
   };
 };
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadTricks();
-});
+window.addEventListener("DOMContentLoaded",()=>loadTricks());
 </script>
 </body>
 </html>
-
