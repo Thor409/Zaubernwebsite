@@ -3,280 +3,149 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ZauberWiki – Tricks & Erklärungen</title>
+<title>ZauberWiki</title>
 <style>
-:root{--bg:#f6f3fa;--card:#fff;--tx:#241f2e;--mu:#6f6a7c;--ac:#6b3fa0;--ac2:#efe6fa;--bd:#e4def0;--ok:#2f8f5b;--wa:#c27a14;--er:#b83a52;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121b;--card:#211d2b;--tx:#efeaf6;--mu:#a49eb4;--ac:#b88cf0;--ac2:#2d2540;--bd:#383147}}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
-.hero{background:linear-gradient(135deg,#4b2a7a,#8a4fc7);color:#fff;padding:28px 16px 22px}
-.hero>div,.w{max-width:880px;margin:0 auto}
-.hero h1{font-family:Georgia,serif;margin:0;font-size:2rem}.hero p{margin:4px 0 0;opacity:.85}
-.w{padding:16px}
-input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;max-width:100%}
-textarea{width:100%;min-height:100px;resize:vertical}input[type=text],input[type=url],input[type=search]{width:100%}
-button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
-.bar{display:flex;gap:8px;margin-bottom:10px}.bar input{flex:1}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
-.chip{white-space:nowrap;border-radius:99px;padding:5px 13px;font-size:.88rem;background:var(--card);border:1px solid var(--bd);cursor:pointer}
+:root{--bg:#f6f3fa;--card:#fff;--tx:#241f2e;--mu:#6f6a7c;--ac:#6b3fa0;--ac2:#efe6fa;--bd:#e4def0;--ok:#2f8f5b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,sans-serif}
+.hero{background:linear-gradient(135deg,#4b2a7a,#8a4fc7);color:#fff;padding:20px 16px}
+.hero h1{margin:0;font-size:1.8rem}.hero p{margin:4px 0 0;opacity:.85}
+.w{max-width:800px;margin:0 auto;padding:16px}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;width:100%;margin-bottom:10px}
+textarea{min-height:80px}input[type=search],button{width:auto;margin-bottom:0}
+button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.bar{display:flex;gap:8px;margin-bottom:12px}.bar input{flex:1}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.chip{white-space:nowrap;border-radius:99px;padding:6px 12px;font-size:.85rem;background:var(--card);border:1px solid var(--bd);cursor:pointer;width:auto}
 .chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
-.c:hover{border-color:var(--ac);box-shadow:0 4px 14px rgba(107,63,160,.15)}
-.b{display:inline-block;border-radius:99px;padding:1px 10px;font-size:.78rem;margin-right:6px;background:var(--ac2);color:var(--ac)}
-.d0{background:#e3f4ea;color:var(--ok)}.d1{background:#fbf0dc;color:var(--wa)}.d2{background:#f9e3e8;color:var(--er)}
-.page{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin-top:10px}
-.page h2{margin:6px 0 8px;font-family:Georgia,serif;font-size:1.7rem}
-.lead{color:var(--mu);font-size:1.05rem;margin:8px 0 16px}
-.page h4{margin:20px 0 8px;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;font-size:.82rem}
-.tip{background:var(--ac2);border-radius:12px;padding:12px 14px;white-space:pre-wrap}
-video{width:100%;border-radius:14px;background:#000;max-height:45vh;margin-top:10px}
-.mu{color:var(--mu);font-size:.85rem}.hide{display:none}.acts{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-#who{font-size:.9rem;background:rgba(255,255,255,0.15);padding:6px 12px;border-radius:20px;display:inline-flex;gap:8px;align-items:center;margin-top:8px}
-#who button{padding:2px 10px;font-size:.8rem;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;cursor:pointer}
+.c:hover{border-color:var(--ac)}
+.b{display:inline-block;border-radius:99px;padding:2px 8px;font-size:.75rem;margin-right:4px;background:var(--ac2);color:var(--ac);width:auto}
+.page{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px}
+.tip{background:var(--ac2);border-radius:12px;padding:12px;white-space:pre-wrap;margin-bottom:10px}
+video,iframe{width:100%;border-radius:14px;background:#000;height:240px;margin-top:8px}
+.hide{display:none}.acts{display:flex;gap:8px;margin-top:12px}
+#who{font-size:.85rem;background:rgba(255,255,255,0.15);padding:4px 10px;border-radius:20px;display:inline-flex;gap:6px;align-items:center;margin-top:6px}
+#who button{padding:2px 6px;font-size:.75rem;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4);width:auto;margin-bottom:0}
 </style>
 </head>
 <body>
 <div class="hero">
-  <div>
+  <div class="w">
     <h1>🎩 ZauberWiki</h1>
-    <p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p>
+    <p>Zaubertricks & Erklärungen gemeinsam gesammelt.</p>
     <div id="who">
       <span id="adminName">👤 Gast-Modus</span>
       <button id="btnAuth">Anmelden</button>
-      <button id="btnCodes" class="hide" style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Admin-Codes</button>
+      <button id="btnCodes" class="hide" style="background:#e6b800;border-color:#e6b800;color:#241f2e">🔑 Codes</button>
       <button id="btnManage" class="hide">⚙️ Admin-Menü</button>
     </div>
   </div>
 </div>
 <div id="app" class="w">
   <div id="list">
-    <div class="bar"><input id="q" type="search" placeholder="Durchsuchen …"><button class="p" id="add">+ Neu</button></div>
-    
+    <div class="bar"><input id="q" type="search" placeholder="Suchen …"><button class="p" id="add">+ Neu</button></div>
     <div class="chips" id="mainTabs">
       <button class="chip on" data-tab="tricks">🎩 Tricks</button>
       <button class="chip" data-tab="techniques">🧩 Techniken</button>
       <button class="chip" data-tab="gimmicks">🧰 Gimmicks</button>
     </div>
-    
     <div class="chips" id="filterChips"></div>
     <div class="grid" id="items"></div>
   </div>
   <div id="view" class="hide"></div>
   <div id="form" class="hide"></div>
 </div>
-  <script>
+<script>
 const $=id=>document.getElementById(id);
-
-// Startdaten inklusive Video-Links zum Testen
 const DEFAULT_DATA = [
-  {id:"d1",type:"tricks",name:"Das springende Gummiband",cat:"🪢 Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden.",explanation:"Spanne das Band um Zeige- und Mittelfinger. Beuge beim Schließen der Hand heimlich alle Fingerspitzen in das Band hinein...",video:"https://w3schools.com"},
-  {id:"d2",type:"techniques",name:"Der Double Lift (Doppelabheben)",cat:"🃏 Griffe & Schnitte",diff:"Fortgeschritten",eff:"🧩 Kartentechnik",summary:"Zwei Karten unbemerkt als eine einzige Karte abheben und vorzeigen.",explanation:"Nutze den kleinen Finger der Haltehand, um unbemerkt eine kleine Lücke (Pinky Count) unter den obersten beiden Karten zu bilden...",video:""}
+  {id:"i1",type:"tricks",name:"Das springende Gummiband",cat:"🪢 Seil & Gummiband",diff:"Anfänger",summary:"Ein Gummiband wechselt unsichtbar die Finger.",explanation:"Band um Zeige- und Mittelfinger legen. Hand zur Faust schließen und das Band heimlich über alle vier Fingerspitzen ziehen...",video:"https://w3schools.com",linkedTo:""},
+  {id:"i2",type:"techniques",name:"Der Double Lift",cat:"Griffe & Schnitte",diff:"Fortgeschritten",summary:"Zwei Karten unbemerkt als eine abheben.",explanation:"Mit dem kleinen Finger unauffällig eine Lücke unter den obersten beiden Karten bilden...",video:"",linkedTo:""},
+  {id:"i3",type:"gimmicks",name:"Die Daumenspitze",cat:"Hilfsmittel",diff:"Anfänger",summary:"Ein künstlicher Daumen für Verschwindetricks.",explanation:"Hilfsmittel unauffällig auf den rechten Daumen stecken...",video:"",linkedTo:""}
 ];
-
-let currentTab = "tricks";
-let currentFilter = "Alle";
-let userRole = "guest"; // Kann "guest" oder "admin" sein
-
+let currentTab = "tricks"; let currentFilter = "Alle"; let userRole = "guest";
 const CATEGORIES = {
-  tricks: ["Alle", "🃏 Karten", "🪙 Münzen", "🪢 Seil & Gummiband", "🧠 Mentalmagie", "✨ Sonstiges"],
-  techniques: ["Alle", "🃏 Griffe & Schnitte", "🃏 Falschmischen", "🪙 Münz-Palmierungen"],
-  gimmicks: ["Alle", "Prepräparierte Karten", "Unsichtbare Fäden", "🧰 Alltags-Hilfsmittel"]
+  tricks: ["Alle", "🃏 Karten", "🪙 Münzen", "🪢 Seil & Gummiband", "🧠 Mentalmagie", "Sonstiges"],
+  techniques: ["Alle", "Griffe & Schnitte", "Falschmischen", "Münz-Palmierungen"],
+  gimmicks: ["Alle", "Präparierte Karten", "Unsichtbare Fäden", "Hilfsmittel"]
 };
-
 function show(w){$("list").classList.toggle("hide",w!=="list");$("view").classList.toggle("hide",w!=="view");$("form").classList.toggle("hide",w!=="form")}
-
 function renderFilterChips() {
-  const container = $("filterChips");
-  container.innerHTML = "";
-  const list = CATEGORIES[currentTab] || ["Alle"];
-  
-  list.forEach(catName => {
-    const isSelected = currentFilter === catName;
-    const btn = document.createElement("button");
-    btn.className = `chip ${isSelected ? 'on' : ''}`;
-    btn.textContent = catName;
-    btn.onclick = () => {
-      currentFilter = catName;
-      renderFilterChips();
-      loadItems();
-    };
-    container.appendChild(btn);
+  const container = $("filterChips"); container.innerHTML = "";
+  (CATEGORIES[currentTab] || ["Alle"]).forEach(catName => {
+    const btn = document.createElement("button"); btn.className = `chip ${currentFilter === catName ? 'on' : ''}`; btn.textContent = catName;
+    btn.onclick = () => { currentFilter = catName; renderFilterChips(); loadItems(); }; container.appendChild(btn);
   });
 }
-
 function loadItems(){
-  const itemsContainer = $("items");
-  itemsContainer.innerHTML = "";
-  const searchWord = $("q").value.toLowerCase();
-  
-  const savedData = localStorage.getItem("zauber_wiki_data");
-  const allItems = savedData ? JSON.parse(savedData) : DEFAULT_DATA;
-  
+  const itemsContainer = $("items"); itemsContainer.innerHTML = ""; const searchWord = $("q").value.toLowerCase();
+  const allItems = JSON.parse(localStorage.getItem("zauber_wiki_data")) || DEFAULT_DATA;
   let filtered = allItems.filter(item => item.type === currentTab);
-  
-  if (searchWord) {
-    filtered = filtered.filter(item => item.name.toLowerCase().includes(searchWord));
-  }
-  
-  if (currentFilter !== "Alle") {
-    filtered = filtered.filter(item => item.cat === currentFilter);
-  }
-  
-  if(filtered.length === 0){
-    itemsContainer.innerHTML = "<p class='mu'>In dieser Kategorie befinden sich noch keine Einträge.</p>";
-    return;
-  }
-  
+  if (searchWord) filtered = filtered.filter(item => item.name.toLowerCase().includes(searchWord));
+  if (currentFilter !== "Alle") filtered = filtered.filter(item => item.cat === currentFilter);
+  if(filtered.length === 0){ itemsContainer.innerHTML = "<p style='color:var(--mu)'>Keine Einträge vorhanden.</p>"; return; }
   filtered.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "c";
-    card.innerHTML = `
-      <h3>✨ ${item.name}</h3>
-      <div style="margin-top:4px;">
-        <span class="b">${item.cat || 'Allgemein'}</span>
-        <span class="b d0">${item.diff || 'Anfänger'}</span>
-      </div>
-      ${item.video ? `<div style="margin-top:4px;"><span class="b" style="background:#e3f4ea; color:#2f8f5b;">🎥 Video inklusive</span></div>` : ''}
-      <p style="margin-top:6px;">${item.summary || 'Keine Beschreibung vorhanden.'}</p>
-    `;
-    card.onclick = () => openTrick(item);
-    itemsContainer.appendChild(card);
+    const card = document.createElement("div"); card.className = "c";
+    card.innerHTML = `<h3>✨ ${item.name}</h3><div><span class="b">${item.cat}</span><span class="b" style="background:#e3f4ea;color:#2f8f5b">${item.diff}</span></div>${item.video ? '<div style="margin-top:4px"><span class="b">🎥 Video</span></div>':''}<p style="margin:16px 0 0;color:var(--mu);font-size:.9rem">${item.summary}</p>`;
+    card.onclick = () => openItem(item); itemsContainer.appendChild(card);
   });
 }
-
-function openTrick(item){
+function openItem(item){
   let videoHTML = "";
   if(item.video) {
-    // Erkennt ob YouTube oder Direkt-Link
     if(item.video.includes("youtube.com") || item.video.includes("youtu.be")) {
-      const ytId = item.video.split("v=")[1] || item.video.split("/").pop();
-      videoHTML = `<h4>Demonstrations-Video</h4><iframe src="https://youtube.com{ytId}" style="width:100%; height:315px; border-radius:14px; border:0;"></iframe>`;
+      videoHTML = `<h4>Video</h4><p><a href="${item.video}" target="_blank" style="color:var(--ac);font-weight:bold;">👉 Klicke hier für das YouTube-Video</a></p>`;
     } else {
-      videoHTML = `<h4>Demonstrations-Video</h4><video src="${item.video}" controls></video>`;
+      videoHTML = `<h4>Video</h4><video src="${item.video}" controls></video>`;
     }
   }
-
-  $("view").innerHTML = `
-    <div class='page'>
-      <h2>${item.name}</h2>
-      <p class='lead'><b>Kategorie:</b> ${item.cat || 'Allgemein'} | <b>Schwierigkeit:</b> ${item.diff || 'Anfänger'}</p>
-      <p class='lead'>${item.summary || ''}</p>
-      ${videoHTML}
-      <h4 style="margin-top:20px;">Erklärung & Geheimnis</h4>
-      <div class='tip'>${item.explanation || 'Keine Erklärung vorhanden.'}</div>
-      <div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div>
-    </div>
-  `;
-  show("view");
-  $("vback").onclick = () => show("list");
+  let linkHTML = "";
+  if(item.linkedTo) {
+    const allItems = JSON.parse(localStorage.getItem("zauber_wiki_data")) || DEFAULT_DATA;
+    const linkedItem = allItems.find(i => i.id === item.linkedTo);
+    if(linkedItem) linkHTML = `<p><b>Verknüpft mit:</b> <span class="b">${linkedItem.name}</span></p>`;
+  }
+  $("view").innerHTML = `<div class='page'><h2>${item.name}</h2><p style='color:var(--mu)'>Kategorie: ${item.cat} | ${item.diff}</p><p>${item.summary}</p>${linkHTML}${videoHTML}<h4>Erklärung</h4><div class='tip'>${item.explanation||'Keine Erklärung.'}</div><div class='acts'><button id='vback'>Zurück</button></div></div>`;
+  show("view"); $("vback").onclick = () => show("list");
 }
-
-document.querySelectorAll("#mainTabs .chip").forEach(btn => {
-  btn.onclick = (e) => {
-    document.querySelectorAll("#mainTabs .chip").forEach(b => b.classList.remove("on"));
-    e.target.classList.add("on");
-    currentTab = e.target.getAttribute("data-tab");
-    currentFilter = "Alle";
-    renderFilterChips();
-    loadItems();
-  };
-});
-
-$("q").oninput = () => loadItems();
-
-// Neues Eingabefeld (Jetzt mit Video-Link!)
 $("add").onclick = () => {
-  let selectOptions = "";
-  (CATEGORIES[currentTab] || []).forEach(o => {
-    if(o !== "Alle") selectOptions += `<option value="${o}">${o}</option>`;
-  });
-
-  $("form").innerHTML = `
-    <div class='page'>
-      <h2>Neu hinzufügen zu: ${currentTab.toUpperCase()}</h2>
-      <label>Name / Bezeichnung</label>
-      <input id='fn' type='text' placeholder='Name eingeben...' style='width:100%; margin-bottom:10px;'>
-      
-      <label>Unterkategorie</label>
-      <select id='fc' style='width:100%; margin-bottom:10px;'>${selectOptions}</select>
-
-      <label>Video-Link (YouTube oder MP4-Url)</label>
-      <input id='fvid' type='url' placeholder='https://youtube.com...' style='width:100%; margin-bottom:10px;'>
-
-      <label>Kurzbeschreibung (Der Effekt)</label>
-      <textarea id='fs' placeholder='Was sieht der Zuschauer?'></textarea>
-      
-      <label>Ausführliche Anleitung / Geheimnis</label>
-      <textarea id='fe' placeholder='Schritt-für-Schritt Erklärung...'></textarea>
-      
-      <div class='acts' style='margin-top:15px;'>
-        <button class='p' id='fsa'>In Cloud speichern</button>
-        <button id='fca'>Abbrechen</button>
-      </div>
-    </div>
-  `;
-  show("form");
-  
-  $("fca").onclick = () => show("list");
+  let selectOptions = ""; (CATEGORIES[currentTab] || []).forEach(o => { if(o !== "Alle") selectOptions += `<option value="${o}">${o}</option>`; });
+  const allItems = JSON.parse(localStorage.getItem("zauber_wiki_data")) || DEFAULT_DATA;
+  let linkOptions = "<option value=''>Keine Verknüpfung</option>";
+  allItems.filter(i => i.type !== currentTab).forEach(i => { linkOptions += `<option value="${i.id}">${i.name}</option>`; });
+  $("form").innerHTML = `<div class='page'><h2>Neu hinzufügen</h2><label>Name</label><input id='fn' type='text'><label>Unterkategorie</label><select id='fc'>${selectOptions}</select><label>Schwierigkeit</label><select id='fd'><option value="Anfänger">Anfänger</option><option value="Fortgeschritten">Fortgeschritten</option><option value="Profi">Profi</option></select><label>Video-Link</label><input id='fvid' type='url' placeholder='https://...'><label>Verknüpfung</label><select id='flnk'>${linkOptions}</select><label>Kurzbeschreibung</label><textarea id='fs'></textarea><label>Erklärung</label><textarea id='fe'></textarea><div class='acts'><button class='p' id='fsa'>Speichern</button><button id='fca'>Abbrechen</button></div></div>`;
+  show("form"); $("fca").onclick = () => show("list");
   $("fsa").onclick = () => {
-    const name = $("fn").value.trim();
-    if(!name) return alert("Bitte einen Namen eingeben!");
-    
-    const savedData = localStorage.getItem("zauber_wiki_data");
-    let allData = savedData ? JSON.parse(savedData) : [...DEFAULT_DATA];
-    
-    allData.push({
-      id: "item_" + Date.now(),
-      type: currentTab,
-      name: name,
-      cat: $("fc").value,
-      diff: "Anfänger",
-      video: $("fvid").value.trim(),
-      summary: $("fs").value.trim(),
-      explanation: $("fe").value.trim()
-    });
-    
-    localStorage.setItem("zauber_wiki_data", JSON.stringify(allData));
-    alert("Erfolgreich hinzugefügt!");
-    show("list");
-    loadItems();
+    const name = $("fn").value.trim(); if(!name) return alert("Name fehlt!");
+    let allData = JSON.parse(localStorage.getItem("zauber_wiki_data")) || DEFAULT_DATA;
+    allData.push({id:"item_"+Date.now(),type:currentTab,name:name,cat:$("fc").value,diff:$("fd").value,video:$("fvid").value.trim(),linkedTo:$("flnk").value,summary:$("fs").value.trim(),explanation:$("fe").value.trim()});
+    localStorage.setItem("zauber_wiki_data",JSON.stringify(allData)); show("list"); loadItems();
   };
 };
-
-// Echtes Admin-Login-System
 $("btnAuth").onclick = () => {
   if(userRole === "guest") {
-    const pw = prompt("Bitte gib den Admin-Zugangscode ein:");
-    if(pw === "ZYLINDER_2026" || pw === "abracadabra") {
-      userRole = "admin";
-      $("adminName").textContent = "👤 Linus · Admin";
-      $("btnAuth").textContent = "Abmelden";
-      $("btnCodes").classList.remove("hide");
-      $("btnManage").classList.remove("hide");
-      alert("Erfolgreich als Admin angemeldet!");
-    } else {
-      alert("Falscher Code! Zugriff verweigert.");
-    }
+    const code = prompt("Admin-Zugangscode:");
+    if(code === "ZYLINDER_2026") {
+      userRole = "admin"; $("adminName").textContent = "👤 Linus · Admin"; $("btnAuth").textContent = "Abmelden";
+      $("btnCodes").classList.remove("hide"); $("btnManage").classList.remove("hide");
+    } else { alert("Falscher Code!"); }
   } else {
-    userRole = "guest";
-    $("adminName").textContent = "👤 Gast-Modus";
-    $("btnAuth").textContent = "Anmelden";
-    $("btnCodes").classList.add("hide");
-    $("btnManage").classList.add("hide");
-    alert("Abgemeldet.");
+    userRole = "guest"; $("adminName").textContent = "👤 Gast-Modus"; $("btnAuth").textContent = "Anmelden";
+    $("btnCodes").classList.add("hide"); $("btnManage").classList.add("hide");
   }
 };
-
-$("btnCodes").onclick = () => alert("Geheime Wiki-Codes:\n[1] Admin-Code: ZYLINDER_2026\n[2] Trick-Freischaltung: active");
-$("btnManage").onclick = () => alert("Admin-Verwaltung geöffnet!\nHier siehst du alle registrierten Benutzer.");
-
+$("btnCodes").onclick = () => alert("🔑 Admin-Code: ZYLINDER_2026"); $("btnManage").onclick = () => alert("System läuft fehlerfrei.");
+document.querySelectorAll("#mainTabs .chip").forEach(btn => {
+  btn.onclick = (e) => {
+    document.querySelectorAll("#mainTabs .chip").forEach(b => b.classList.remove("on")); e.target.classList.add("on");
+    currentTab = e.target.getAttribute("data-tab"); currentFilter = "Alle"; renderFilterChips(); loadItems();
+  };
+});
+$("q").oninput = () => loadItems();
 window.addEventListener("DOMContentLoaded", () => {
-  renderFilterChips();
-  loadItems();
+  if(!localStorage.getItem("zauber_wiki_data")) localStorage.setItem("zauber_wiki_data", JSON.stringify(DEFAULT_DATA));
+  renderFilterChips(); loadItems();
 });
 </script>
 </body>
 </html>
-
-  
