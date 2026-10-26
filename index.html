@@ -51,7 +51,6 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
 
 <!-- Richtige Supabase Bibliothek laden -->
 <script src="https://jsdelivr.net"></script>
-
 <script>
 const $=id=>document.getElementById(id);
 
@@ -94,7 +93,7 @@ async function loadTricks() {
     card.className = "c";
     card.innerHTML = `<h3>✨ ${trick.name}</h3><p>${trick.summary || 'Keine Beschreibung'}</p>`;
     card.onclick = () => openTrick(trick);
-    $("items").appendChild(card);
+    $("items").appendChild(appendChild(card));
   });
 }
 
@@ -172,4 +171,5 @@ window.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
