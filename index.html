@@ -27,12 +27,11 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
 .d0{background:#e3f4ea;color:var(--ok)}.d1{background:#fbf0dc;color:var(--wa)}.d2{background:#f9e3e8;color:var(--er)}
 .page{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin-top:10px}
 .page h2{margin:6px 0 8px;font-family:Georgia,serif;font-size:1.7rem}
+.lead{color:var(--mu);font-size:1.05rem;margin:8px 0 16px}
+.page h4{margin:20px 0 8px;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;font-size:.82rem}
+.tip{background:var(--ac2);border-radius:12px;padding:12px 14px;white-space:pre-wrap}
+video{width:100%;border-radius:14px;background:#000;max-height:45vh;margin-top:10px}
 .mu{color:var(--mu);font-size:.85rem}.hide{display:none}.acts{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-#cb{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5;border-radius:99px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
-#cp{position:fixed;left:14px;right:14px;max-width:380px;margin-left:auto;bottom:calc(64px + env(safe-area-inset-bottom,0px));height:min(60vh,460px);background:var(--card);border:1px solid var(--bd);border-radius:16px;display:flex;flex-direction:column;z-index:5;box-shadow:0 8px 28px rgba(0,0,0,.28);overflow:hidden}
-#cp.hide{display:none}
-#cm{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
-.cin{display:flex;gap:6px;padding:8px;border-top:1px solid var(--bd)}.cin input{flex:1;min-width:0}
 #who{font-size:.9rem;background:rgba(255,255,255,0.15);padding:6px 12px;border-radius:20px;display:inline-flex;gap:8px;align-items:center;margin-top:8px}
 #who button{padding:2px 10px;font-size:.8rem;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;}
 </style>
@@ -43,10 +42,10 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
     <h1>🎩 ZauberWiki</h1>
     <p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p>
     <div id="who">
-      <span id="adminName">👤 Linus · Admin</span>
-      <button id="btnAuth">Abmelden</button>
-      <button id="btnCodes" style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Codes</button>
-      <button id="btnManage">⚙️ Verwalten</button>
+      <span id="adminName">👤 Gast-Modus</span>
+      <button id="btnAuth">Anmelden</button>
+      <button id="btnCodes" class="hide" style="background:#e6b800; border-color:#e6b800; color:#241f2e;">🔑 Admin-Codes</button>
+      <button id="btnManage" class="hide">⚙️ Admin-Menü</button>
     </div>
   </div>
 </div>
@@ -54,36 +53,30 @@ button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(
   <div id="list">
     <div class="bar"><input id="q" type="search" placeholder="Durchsuchen …"><button class="p" id="add">+ Neu</button></div>
     
-    <!-- Hauptreiter -->
     <div class="chips" id="mainTabs">
       <button class="chip on" data-tab="tricks">🎩 Tricks</button>
       <button class="chip" data-tab="techniques">🧩 Techniken</button>
       <button class="chip" data-tab="gimmicks">🧰 Gimmicks</button>
     </div>
     
-    <!-- Requisiten-Filter (wird per JavaScript befüllt) -->
     <div class="chips" id="filterChips"></div>
-    
     <div class="grid" id="items"></div>
   </div>
   <div id="view" class="hide"></div>
   <div id="form" class="hide"></div>
 </div>
-<button id="cb" class="p">💬 Chat</button>
-<script>
+  <script>
 const $=id=>document.getElementById(id);
 
-// Beispiel-Startdaten für alle drei Kategorien
+// Startdaten inklusive Video-Links zum Testen
 const DEFAULT_DATA = [
-  {id:"d1",type:"tricks",name:"Das springende Gummiband",cat:"Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden.",explanation:"Spanne das Band um Zeige- und Mittelfinger. Beuge beim Schließen der Hand heimlich alle Fingerspitzen in das Band hinein..."},
-  {id:"d2",type:"tricks",name:"Der 21-Karten-Trick",cat:"Karten",diff:"Anfänger",eff:"🧠 Gedankenlesen",summary:"Ein mathematischer Klassiker, bei dem du die gewählte Karte des Zuschauers errätst.",explanation:"Lege die Karten dreimal in 3 Reihen aus. Die Reihe mit der Zuschauerkarte muss beim Einsammeln immer in die Mitte der Stapel gelegt werden..."},
-  {id:"d3",type:"techniques",name:"Der Double Lift (Doppelabheben)",cat:"Karten",diff:"Fortgeschritten",eff:"🧩 Kartentechnik",summary:"Zwei Karten unbemerkt als eine einzige Karte abheben und vorzeigen.",explanation:"Nutze den kleinen Finger der Haltehand, um unbemerkt eine kleine Lücke (Pinky Count) unter den obersten beiden Karten zu bilden..."},
-  {id:"d4",type:"gimmicks",name:"Die Daumenspitze (Thumb Tip)",cat:"Sonstiges",diff:"Anfänger",eff:"🧰 Hilfsmittel",summary:"Ein künstlicher Daumen, um Tücher oder Flüssigkeiten verschwinden zu lassen.",explanation:"Das Hilfsmittel wird auf den Daumen gesteckt. Beim Verschwindenlassen schiebst du das Tuch in die Daumenspitze in deiner Faust..."}
+  {id:"d1",type:"tricks",name:"Das springende Gummiband",cat:"🪢 Seil & Gummiband",diff:"Anfänger",eff:"✨ Teleportation",summary:"Ein Gummiband wechselt unsichtbar von zwei Fingern auf die anderen beiden.",explanation:"Spanne das Band um Zeige- und Mittelfinger. Beuge beim Schließen der Hand heimlich alle Fingerspitzen in das Band hinein...",video:"https://w3schools.com"},
+  {id:"d2",type:"techniques",name:"Der Double Lift (Doppelabheben)",cat:"🃏 Griffe & Schnitte",diff:"Fortgeschritten",eff:"🧩 Kartentechnik",summary:"Zwei Karten unbemerkt als eine einzige Karte abheben und vorzeigen.",explanation:"Nutze den kleinen Finger der Haltehand, um unbemerkt eine kleine Lücke (Pinky Count) unter den obersten beiden Karten zu bilden...",video:""}
 ];
 
 let currentTab = "tricks";
 let currentFilter = "Alle";
-let isAdmin = true;
+let userRole = "guest"; // Kann "guest" oder "admin" sein
 
 const CATEGORIES = {
   tricks: ["Alle", "🃏 Karten", "🪙 Münzen", "🪢 Seil & Gummiband", "🧠 Mentalmagie", "✨ Sonstiges"],
@@ -93,16 +86,13 @@ const CATEGORIES = {
 
 function show(w){$("list").classList.toggle("hide",w!=="list");$("view").classList.toggle("hide",w!=="view");$("form").classList.toggle("hide",w!=="form")}
 
-// Baut die Filter-Chips dynamisch passend zum gewählten Reiter auf
 function renderFilterChips() {
   const container = $("filterChips");
   container.innerHTML = "";
   const list = CATEGORIES[currentTab] || ["Alle"];
   
   list.forEach(catName => {
-    const cleanName = catName.replace(/[^\w\säöüÄÖÜ&]/g, '').trim(); // Entfernt Emojis für den Abgleich
-    const isSelected = currentFilter === catName || (currentFilter === "Alle" && catName === "Alle");
-    
+    const isSelected = currentFilter === catName;
     const btn = document.createElement("button");
     btn.className = `chip ${isSelected ? 'on' : ''}`;
     btn.textContent = catName;
@@ -115,7 +105,6 @@ function renderFilterChips() {
   });
 }
 
-// Lädt die passenden Elemente (Tricks, Techniken oder Gimmicks)
 function loadItems(){
   const itemsContainer = $("items");
   itemsContainer.innerHTML = "";
@@ -124,17 +113,14 @@ function loadItems(){
   const savedData = localStorage.getItem("zauber_wiki_data");
   const allItems = savedData ? JSON.parse(savedData) : DEFAULT_DATA;
   
-  // 1. Nach Hauptreiter filtern (Tricks vs Techniken vs Gimmicks)
   let filtered = allItems.filter(item => item.type === currentTab);
   
-  // 2. Nach Suchbegriff filtern
   if (searchWord) {
     filtered = filtered.filter(item => item.name.toLowerCase().includes(searchWord));
   }
   
-  // 3. Nach Unterkategorie-Chip filtern
   if (currentFilter !== "Alle") {
-    filtered = filtered.filter(item => item.cat && currentFilter.includes(item.cat));
+    filtered = filtered.filter(item => item.cat === currentFilter);
   }
   
   if(filtered.length === 0){
@@ -145,20 +131,13 @@ function loadItems(){
   filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "c";
-    let icon = "✨";
-    if (item.cat && item.cat.includes("Karten")) icon = "🃏";
-    if (item.cat && item.cat.includes("Münzen")) icon = "🪙";
-    if (item.cat && item.cat.includes("Seil")) icon = "🪢";
-    if (item.cat && item.cat.includes("Mental")) icon = "🧠";
-
     card.innerHTML = `
-      <div style="font-size:1.5rem; margin-bottom:4px;">${icon}</div>
-      <h3>${item.name}</h3>
+      <h3>✨ ${item.name}</h3>
       <div style="margin-top:4px;">
         <span class="b">${item.cat || 'Allgemein'}</span>
         <span class="b d0">${item.diff || 'Anfänger'}</span>
       </div>
-      ${item.eff ? `<div style="margin-top:4px;"><span class="b" style="background:#fff2cc; color:#b45f06;">${item.eff}</span></div>` : ''}
+      ${item.video ? `<div style="margin-top:4px;"><span class="b" style="background:#e3f4ea; color:#2f8f5b;">🎥 Video inklusive</span></div>` : ''}
       <p style="margin-top:6px;">${item.summary || 'Keine Beschreibung vorhanden.'}</p>
     `;
     card.onclick = () => openTrick(item);
@@ -167,12 +146,24 @@ function loadItems(){
 }
 
 function openTrick(item){
+  let videoHTML = "";
+  if(item.video) {
+    // Erkennt ob YouTube oder Direkt-Link
+    if(item.video.includes("youtube.com") || item.video.includes("youtu.be")) {
+      const ytId = item.video.split("v=")[1] || item.video.split("/").pop();
+      videoHTML = `<h4>Demonstrations-Video</h4><iframe src="https://youtube.com{ytId}" style="width:100%; height:315px; border-radius:14px; border:0;"></iframe>`;
+    } else {
+      videoHTML = `<h4>Demonstrations-Video</h4><video src="${item.video}" controls></video>`;
+    }
+  }
+
   $("view").innerHTML = `
     <div class='page'>
       <h2>${item.name}</h2>
-      <p class='lead'><b>Bereich:</b> ${item.type.toUpperCase()} | <b>Kategorie:</b> ${item.cat || 'Allgemein'} | <b>Schwierigkeit:</b> ${item.diff || 'Anfänger'}</p>
+      <p class='lead'><b>Kategorie:</b> ${item.cat || 'Allgemein'} | <b>Schwierigkeit:</b> ${item.diff || 'Anfänger'}</p>
       <p class='lead'>${item.summary || ''}</p>
-      <h4>Erklärung & Anleitung</h4>
+      ${videoHTML}
+      <h4 style="margin-top:20px;">Erklärung & Geheimnis</h4>
       <div class='tip'>${item.explanation || 'Keine Erklärung vorhanden.'}</div>
       <div class='acts' style='margin-top:20px;'><button id='vback'>Zurück zur Übersicht</button></div>
     </div>
@@ -181,13 +172,12 @@ function openTrick(item){
   $("vback").onclick = () => show("list");
 }
 
-// Event-Listener für die Hauptreiter (Tricks, Techniken, Gimmicks)
 document.querySelectorAll("#mainTabs .chip").forEach(btn => {
   btn.onclick = (e) => {
     document.querySelectorAll("#mainTabs .chip").forEach(b => b.classList.remove("on"));
     e.target.classList.add("on");
     currentTab = e.target.getAttribute("data-tab");
-    currentFilter = "Alle"; // Filter zurücksetzen beim Tab-Wechsel
+    currentFilter = "Alle";
     renderFilterChips();
     loadItems();
   };
@@ -195,7 +185,7 @@ document.querySelectorAll("#mainTabs .chip").forEach(btn => {
 
 $("q").oninput = () => loadItems();
 
-// Formular zum Hinzufügen (passt sich dynamisch dem aktiven Tab an!)
+// Neues Eingabefeld (Jetzt mit Video-Link!)
 $("add").onclick = () => {
   let selectOptions = "";
   (CATEGORIES[currentTab] || []).forEach(o => {
@@ -211,11 +201,11 @@ $("add").onclick = () => {
       <label>Unterkategorie</label>
       <select id='fc' style='width:100%; margin-bottom:10px;'>${selectOptions}</select>
 
-      <label>Effekt / Markierung</label>
-      <input id='feff' type='text' placeholder='z.B. Teleportation, Falschgriff' style='width:100%; margin-bottom:10px;'>
+      <label>Video-Link (YouTube oder MP4-Url)</label>
+      <input id='fvid' type='url' placeholder='https://youtube.com...' style='width:100%; margin-bottom:10px;'>
 
-      <label>Kurzbeschreibung (Effekt)</label>
-      <textarea id='fs' placeholder='Was passiert oder wofür wird es genutzt?'></textarea>
+      <label>Kurzbeschreibung (Der Effekt)</label>
+      <textarea id='fs' placeholder='Was sieht der Zuschauer?'></textarea>
       
       <label>Ausführliche Anleitung / Geheimnis</label>
       <textarea id='fe' placeholder='Schritt-für-Schritt Erklärung...'></textarea>
@@ -242,7 +232,7 @@ $("add").onclick = () => {
       name: name,
       cat: $("fc").value,
       diff: "Anfänger",
-      eff: $("feff").value.trim() ? "✨ " + $("feff").value.trim() : "",
+      video: $("fvid").value.trim(),
       summary: $("fs").value.trim(),
       explanation: $("fe").value.trim()
     });
@@ -254,25 +244,33 @@ $("add").onclick = () => {
   };
 };
 
-// Admin-Knöpfe oben funktionsfähig machen
+// Echtes Admin-Login-System
 $("btnAuth").onclick = () => {
-  isAdmin = !isAdmin;
-  if(!isAdmin) {
+  if(userRole === "guest") {
+    const pw = prompt("Bitte gib den Admin-Zugangscode ein:");
+    if(pw === "ZYLINDER_2026" || pw === "abracadabra") {
+      userRole = "admin";
+      $("adminName").textContent = "👤 Linus · Admin";
+      $("btnAuth").textContent = "Abmelden";
+      $("btnCodes").classList.remove("hide");
+      $("btnManage").classList.remove("hide");
+      alert("Erfolgreich als Admin angemeldet!");
+    } else {
+      alert("Falscher Code! Zugriff verweigert.");
+    }
+  } else {
+    userRole = "guest";
     $("adminName").textContent = "👤 Gast-Modus";
     $("btnAuth").textContent = "Anmelden";
     $("btnCodes").classList.add("hide");
     $("btnManage").classList.add("hide");
-  } else {
-    $("adminName").textContent = "👤 Linus · Admin";
-    $("btnAuth").textContent = "Abmelden";
-    $("btnCodes").classList.remove("hide");
-    $("btnManage").classList.remove("hide");
+    alert("Abgemeldet.");
   }
 };
-$("btnCodes").onclick = () => alert("Deine geheimen Admin-Zugangscodes lauten: [ZYLINDER_2026], [ABRACADABRA]");
-$("btnManage").onclick = () => alert("Einstellungs-Verwaltung geöffnet! Hier kannst du später Nutzer sperren oder Kanäle moderieren.");
 
-// Beim Start direkt alles initialisieren
+$("btnCodes").onclick = () => alert("Geheime Wiki-Codes:\n[1] Admin-Code: ZYLINDER_2026\n[2] Trick-Freischaltung: active");
+$("btnManage").onclick = () => alert("Admin-Verwaltung geöffnet!\nHier siehst du alle registrierten Benutzer.");
+
 window.addEventListener("DOMContentLoaded", () => {
   renderFilterChips();
   loadItems();
@@ -280,3 +278,5 @@ window.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
+  
