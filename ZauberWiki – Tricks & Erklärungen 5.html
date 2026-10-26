@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZauberWiki – Tricks & Erklärungen</title>
+<style>
+:root{--bg:#f6f3fa;--card:#fff;--tx:#241f2e;--mu:#6f6a7c;--ac:#6b3fa0;--ac2:#efe6fa;--bd:#e4def0;--ok:#2f8f5b;--wa:#c27a14;--er:#b83a52;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121b;--card:#211d2b;--tx:#efeaf6;--mu:#a49eb4;--ac:#b88cf0;--ac2:#2d2540;--bd:#383147}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.hero{background:linear-gradient(135deg,#4b2a7a,#8a4fc7);color:#fff;padding:28px 16px 22px}
+.hero>div,.w{max-width:880px;margin:0 auto}
+.hero h1{font-family:Georgia,serif;margin:0;font-size:2rem}.hero p{margin:4px 0 0;opacity:.85}
+.w{padding:16px}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;max-width:100%}
+textarea{width:100%;min-height:100px;resize:vertical}input[type=text],input[type=url],input[type=search]{width:100%}
+button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.bar{display:flex;gap:8px;margin-bottom:10px}.bar input{flex:1}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.chip{white-space:nowrap;border-radius:99px;padding:5px 13px;font-size:.88rem}.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.c:hover{border-color:var(--ac);box-shadow:0 4px 14px rgba(107,63,160,.15)}
+.ic{font-size:1.6rem}.c h3{margin:0;font-size:1.05rem}.c p{margin:0;color:var(--mu);font-size:.9rem}
+.b{display:inline-block;border-radius:99px;padding:1px 10px;font-size:.78rem;margin-right:6px;background:var(--ac2);color:var(--ac)}
+.d0{background:#e3f4ea;color:var(--ok)}.d1{background:#fbf0dc;color:var(--wa)}.d2{background:#f9e3e8;color:var(--er)}
+.page{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin-top:10px}
+.page h2{margin:6px 0 8px;font-family:Georgia,serif;font-size:1.7rem}
+.lead{color:var(--mu);font-size:1.05rem;margin:8px 0 16px}
+.page h4{margin:20px 0 8px;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;font-size:.82rem}
+.step{display:flex;gap:12px;margin-bottom:10px}.n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:.85rem;font-weight:700}
+.tip{background:var(--ac2);border-radius:12px;padding:12px 14px;white-space:pre-wrap}
+video{width:100%;border-radius:14px;background:#000;max-height:60vh}
+a.vl{display:inline-block;background:var(--ac2);color:var(--ac);border-radius:12px;padding:10px 14px;text-decoration:none;font-weight:600}
+label{display:block;margin:14px 0 4px;font-weight:600}.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1;min-width:150px}
+.mu{color:var(--mu);font-size:.85rem}.hide{display:none}.acts{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+#cb{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5;border-radius:99px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#cp{position:fixed;left:14px;right:14px;max-width:380px;margin-left:auto;bottom:calc(64px + env(safe-area-inset-bottom,0px));height:min(60vh,460px);background:var(--card);border:1px solid var(--bd);border-radius:16px;display:flex;flex-direction:column;z-index:5;box-shadow:0 8px 28px rgba(0,0,0,.28);overflow:hidden}
+#cp.hide{display:none}
+.ch{padding:10px 14px;font-weight:700;background:var(--ac2);color:var(--ac)}
+#cm{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
+.m{background:var(--ac2);border-radius:12px;padding:6px 10px;max-width:85%;align-self:flex-start;overflow-wrap:anywhere}.m b{display:block;font-size:.75rem;color:var(--ac)}
+.m.me{align-self:flex-end;background:var(--ac);color:#fff}.m.me b{color:#fff;opacity:.8}
+.cin{display:flex;gap:6px;padding:8px;border-top:1px solid var(--bd)}.cin input{flex:1;min-width:0}
+#gate{max-width:440px}input[type=password]{width:100%}#who{font-size:.9rem}#who button{padding:2px 10px;font-size:.8rem;margin-left:6px;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
+.tl{color:var(--ac);font-weight:600;text-decoration:none;border-bottom:1px dotted var(--ac);margin-right:10px;cursor:pointer}.tl.red{color:var(--er);border-color:var(--er)}.step .tl,.tip .tl{margin-right:0}
+.cadm{display:none;gap:6px;padding:6px 8px;border-bottom:1px solid var(--bd);align-items:center;font-size:.8rem}.cadm input[type=text]{flex:1;min-width:0;padding:4px 8px}.cadm button{padding:4px 10px}.ch{display:flex;gap:8px;align-items:center}.ch select{flex:1;min-width:0;padding:4px 8px;font-size:.9rem}.m{position:relative;padding-right:24px}.m .x{position:absolute;top:2px;right:2px;padding:0 6px;border:0;background:transparent;color:inherit;opacity:.6;font-size:.75rem;cursor:pointer}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.sec2{border-left:3px solid var(--ac);padding:4px 0 4px 12px;margin:8px 0}.sec2 input,.sec2 textarea{width:100%;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="hero"><div><h1>🎩 ZauberWiki</h1><p>Zaubertricks mit Erklärung – gemeinsam gesammelt.</p><p id="who" class="hide"></p></div></div>
+<div id="gate" class="w"><p class="mu">Lade …</p></div>
+<div id="app" class="w hide">
+<div id="list"><div class="bar"><input id="q" type="search" placeholder="Tricks durchsuchen …"><select id="mf" style="flex:none;max-width:140px"><option value="">Alle Tricks</option><option value="learned">✅ Gelernt</option><option value="learning">📖 Am Lernen</option><option value="fav">⭐ Lieblinge</option><option value="toLearn">🎯 Zu lernen</option></select><button class="p" id="add">+ Neu</button></div>
+<div class="chips" id="tabs"><button class="chip on" id="tt">🎩 Tricks</button><button class="chip" id="tn">🧩 Techniken</button><button class="chip" id="tg">🧰 Gimmicks</button></div>
+<div class="chips" id="chips"></div><div class="chips" id="chips2"></div><div class="grid" id="items"></div></div>
+<div id="view" class="hide"></div><div id="form" class="hide"></div>
+</div>
+<button id="cb" class="p hide">💬 Chat</button>
+<div id="cp" class="hide"><div class="ch"><select id="chs"></select></div><div class="cadm" id="cadm"><input id="cn" type="text" maxlength="40" placeholder="Neuer Kanal …"><label title="Wichtig: oben angeheftet, nur Admins schreiben"><input type="checkbox" id="cimp"> 📌</label><button id="cadd">+</button></div><div id="cm"></div><div class="mu" id="cro" style="display:none;padding:8px 12px"></div><div class="cin"><input id="ci" type="text" maxlength="500" placeholder="Nachricht schreiben …"><button class="p" id="cs">Senden</button></div></div>
+<script>
+const CATS=[["Karten","🃏"],["Münzen","🪙"],["Seil & Gummiband","🪢"],["Mentalmagie","🧠"],["Alltagsgegenstände","🥄"],["Mathe-Tricks","🔢"],["Sonstiges","✨"]];
+const ICON=Object.fromEntries(CATS);const DIFF=["Anfänger","Fortgeschritten","Profi"];const EFFECTS=["Teleportation","Verschwinden","Erscheinen","Verwandlung","Levitation","Gedankenlesen","Wiederherstellung","Durchdringung","Sonstiges"];const BASEC=CATS.length,BASEE=EFFECTS.length;
+let db=null,assets=null,me=null,uapi=null,uname="",chatOn=false,techniques=[],tab="t",curT=null,curFrom=null,chCur="",chatSet=null,lastOpen=null,curVia="",lastTab="t",marks={},mf="",customLists=[],eff="",cfgVault=null,curCodes=null,vk="",tricks=[],cur=null,cat="";
+const $=id=>document.getElementById(id);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+function show(w){if(w==="list"&&chatSet){chatSet("chat","Allgemein");cur=null;curT=null;lastOpen=null}["list","view","form"].forEach(k=>$(k).classList.toggle("hide",k!==w));window.scrollTo(0,0)}
+function chips(){const b=$("chips");b.replaceChildren();[["","Alle"],...catList().map(c=>[c[0],c[1]+" "+c[0]])].forEach(([v,l])=>{const x=el("button","chip"+(cat===v?" on":""),l);x.onclick=()=>{cat=v;chips();renderList()};b.append(x)});
+  if(tab!=="t"&&role&&role!=="reader"){const ai=el("input");ai.type="text";ai.placeholder="+ Eigener Punkt (Enter)";ai.maxLength=30;ai.style.cssText="width:190px;flex:none;padding:4px 12px;border-radius:99px;font-size:.88rem";ai.onkeydown=async ev=>{if(ev.key!=="Enter")return;const n=ai.value.trim().replace(/[^\p{L}\p{N} &\-]/gu,"").slice(0,30);if(!n)return;if(!catList().some(c=>c[0].toLowerCase()===n.toLowerCase())){try{await db.collection("lists").doc().set({kind:tab==="g"?"gcat":"tcat",name:n,by:uname})}catch(e2){}}ai.value=""};b.append(ai)}
+  const b2=$("chips2");b2.replaceChildren();[["","Alle Effekte"],...EFFECTS.map(e=>[e,"✨ "+e])].forEach(([v,l])=>{const x=el("button","chip"+(eff===v?" on":""),l);x.onclick=()=>{eff=v;chips();renderList()};b2.append(x)})}
+const dc=d=>"b d"+Math.max(0,DIFF.indexOf(d));
+function renderList(){
+  if(tab!=="t"){renderTechs();return}
+  const q=$("q").value.toLowerCase(),box=$("items");box.replaceChildren();
+  if(!db){box.append(el("p","mu","Die gemeinsame Datenbank ist hier nicht verfügbar – bitte anmelden."));return}
+  const f=tricks.filter(t=>(!cat||t.category===cat)&&(!eff||t.effect===eff)&&mfOk(t)&&(!q||(t.title+t.summary+t.props+t.explanation).toLowerCase().includes(q)));
+  if(!f.length){box.append(el("p","mu",tricks.length?"Nichts gefunden.":"Noch keine Tricks – füge den ersten hinzu!"));return}
+  f.forEach(t=>{const d=el("div","c");d.append(el("div","ic",ICON[t.category]||"✨"),el("h3",0,t.title));
+    const m=el("div");m.append(el("span","b",t.category),el("span",dc(t.difficulty),t.difficulty));if(t.toLearn)m.append(el("span","b","🎯 Zu lernen"));const mk=marks[t.id]||{};if(mk.state==="learned")m.append(el("span","b d0","✅ Gelernt"));if(mk.state==="learning")m.append(el("span","b d1","📖 Am Lernen"));if(mk.fav)m.append(el("span","b","⭐"));
+    if(t.effect)m.append(el("span","b","✨ "+t.effect));if(t.videoId||t.videoLink)m.append(el("span","b","▶ Video"));
+    d.append(m,el("p",0,t.summary));d.onclick=()=>open(t.id);box.append(d)});
+}
+function open(id){
+  const t=tricks.find(x=>x.id===id);if(!t)return;cur=t;curT=null;if(chatSet&&lastOpen!==t.id)chatSet("tricks/"+t.id+"/chat","Diskussion: "+t.title);lastOpen=t.id;const v=$("view");v.replaceChildren();
+  const b=el("button",0,"← Alle Tricks");b.onclick=()=>show("list");v.append(b);
+  const p=el("div","page");v.append(p);
+  const m=el("div");m.append(el("span","b",(ICON[t.category]||"")+" "+t.category),el("span",dc(t.difficulty),t.difficulty));
+  if(t.effect)m.append(el("span","b","✨ "+t.effect));if(t.toLearn)m.append(el("span","b","🎯 Zu lernen"));p.append(m,el("h2",0,t.title),el("p","lead",t.summary),markBar(t));
+  if(t.videoId){const vd=el("video");vd.controls=true;vd.preload="metadata";vd.src="/_blob/"+t.videoId;p.append(vd)}
+  if(/^https:\/\//.test(t.videoLink||"")){const a=el("a","vl","▶ Video ansehen");a.href=t.videoLink;a.target="_blank";a.rel="noopener noreferrer";const w=el("p");w.append(a);p.append(w)}
+  if(t.props){p.append(el("h4",0,"Das brauchst du"),el("div",0,t.props))}
+  if((t.techs||[]).length){p.append(el("h4",0,"Verwendete Techniken"));const tw=el("div");t.techs.forEach(n=>{const x=techByName(n);const a=el("a",x?"tl":"tl red",n);a.href="#";if(!x)a.title="Noch keine Seite – klicken zum Anlegen";a.onclick=e=>{e.preventDefault();x?openTech(x.id,t.id):(role!=="reader"&&editTech({name:n},t.id))};tw.append(a)});p.append(tw)}
+  p.append(el("h4",0,"So funktioniert's"));
+  t.explanation.split("\n").filter(l=>l.trim()).forEach(l=>{const mt=l.match(/^\s*(\d+)[.)]\s*(.*)$/);const s=el("div","step");if(mt){s.append(el("div","n",mt[1]),rich(mt[2],t.id))}else s.append(rich(l,t.id));p.append(s)});
+  if(t.tips)p.append(el("h4",0,"Tipps & Varianten"),rich(t.tips,t.id,"tip"));
+  p.append(el("p","mu","Zuletzt bearbeitet: "+new Date(t.updated||0).toLocaleDateString("de-DE")+(t.editorName?" von "+t.editorName:"")));
+  const e=el("button","p","✎ Bearbeiten");e.onclick=()=>edit(t);e.style.display=canEdit(t)?"":"none";const dsc=el("button",0,"💬 Diskussion zu diesem Trick");dsc.onclick=()=>{if($("cp").classList.contains("hide"))$("cb").click()};const a=el("div","acts");a.append(e,dsc);adminBtns("tricks",t,a,()=>open(t.id));lockNote(p,t);p.append(a);show("view");
+}
+function edit(t){
+  const f=$("form");f.replaceChildren();t=t||{};const pg=el("div","page");f.append(pg);
+  pg.append(el("h2",0,t.id?"Trick bearbeiten":"Neuen Trick hinzufügen"));
+  const F={};
+  const field=(k,l,type,ph)=>{pg.append(el("label",0,l));const i=type==="area"?el("textarea"):el("input");if(type!=="area")i.type=type||"text";if(ph)i.placeholder=ph;i.value=t[k]||"";F[k]=i;pg.append(i)};
+  field("title","Titel","text","z. B. Die verschwindende Münze");
+  const r=el("div","row"),a=el("div"),b=el("div");
+  a.append(el("label",0,"Kategorie"));F.category=el("select");CATS.forEach(c=>F.category.append(new Option(c[0],c[0])));F.category.value=t.category||CATS[0][0];a.append(F.category);
+  b.append(el("label",0,"Schwierigkeit"));F.difficulty=el("select");DIFF.forEach(c=>F.difficulty.append(new Option(c,c)));F.difficulty.value=t.difficulty||DIFF[0];b.append(F.difficulty);
+  const c3=el("div");c3.append(el("label",0,"Effekt-Art"));F.effect=el("select");F.effect.append(new Option("– keine –",""));EFFECTS.forEach(e=>F.effect.append(new Option(e,e)));F.effect.value=t.effect||"";c3.append(F.effect);r.append(a,b,c3);pg.append(r);
+  field("summary","Kurzbeschreibung (Was sieht das Publikum?)","area");
+  field("props","Das brauchst du","text","z. B. Münze, Tuch");
+  t.techsStr=(t.techs||[]).join(", ");field("techsStr","Techniken & Gimmicks (mit Komma trennen – werden zu Wiki-Links)","text",techniques.slice(0,2).map(x=>x.name).join(", ")||"z. B. Misdirection, Palmieren");
+  field("explanation","Erklärung – ein Schritt pro Zeile, z. B. „1. …“","area");F.explanation.style.minHeight="200px";
+  field("tips","Tipps & Varianten (optional)","area");
+  field("videoLink","Video-Link (optional, z. B. YouTube – öffnet sich in neuem Tab)","url","https://…");
+  let file=null,rm=null;
+  if(assets){pg.append(el("label",0,"Video hochladen (optional, bis 20 MB)"));const fi=el("input");fi.type="file";fi.accept="video/*";fi.onchange=()=>{file=fi.files[0]||null};pg.append(fi);
+    if(t.videoId){const l=el("label");rm=el("input");rm.type="checkbox";l.append(rm,document.createTextNode(" Vorhandenes Video entfernen"));pg.append(l)}}
+  const msg=el("p","mu"),s=el("button","p","Speichern"),c=el("button",0,"Abbrechen");c.onclick=()=>t.id?open(t.id):show("list");
+  s.onclick=async()=>{
+    const d={};for(const k in F)d[k]=F[k].value.trim();
+    if(!d.title||!d.summary||!d.explanation){msg.textContent="Titel, Kurzbeschreibung und Erklärung sind Pflicht.";return}
+    if(d.videoLink&&!/^https:\/\//.test(d.videoLink)){msg.textContent="Der Video-Link muss mit https:// beginnen.";return}
+    if(file&&file.size>20*1048576){msg.textContent="Das Video ist größer als 20 MB.";return}
+    s.disabled=true;msg.textContent="Speichere …";
+    try{
+      d.videoId=rm&&rm.checked?"":(t.videoId||"");
+      if(file){msg.textContent="Video wird hochgeladen …";const u=await assets.upload(file);d.videoId=u.id}
+      d.updated=Date.now();d.created=t.created||d.updated;d.locked=!!t.locked;d.toLearn=!!t.toLearn;d.techs=(d.techsStr||"").split(",").map(s=>s.trim()).filter(Boolean);delete d.techsStr;d.editor=me||"";d.editorName=uname;
+      const ref=t.id?db.collection("tricks").doc(t.id):db.collection("tricks").doc();await ref.set(d);show("list");
+    }catch(e){msg.textContent="Speichern nicht möglich (Berechtigung, Verbindung oder Video-Upload).";s.disabled=false}
+  };
+  const ac=el("div","acts");ac.append(s,c);pg.append(msg,ac);show("form");
+}
+function initChat(){
+  const cb=$("cb"),cp=$("cp"),ms=$("cm"),inp=$("ci");let msgs=[],isOpen=false,unsub=null,ch="chat",chans=[],ctx=null;cb.classList.remove("hide");
+  async function draw(){
+    const ids=[...new Set(msgs.map(m=>m.uid).filter(Boolean))];let P={};
+    try{if(uapi)P=await uapi.profiles(ids)}catch(e){}
+    ms.replaceChildren();
+    msgs.forEach(m=>{const mine=m.uid&&m.uid===me;const d=el("div","m"+(mine?" me":""));d.append(el("b",0,mine?"Du":(m.name||(P[m.uid]&&P[m.uid].name)||"Jemand")),el("span",0,m.text));if(role==="admin"){const x=el("button","x","✕");x.title="Nachricht löschen";x.onclick=()=>db.collection(ch).doc(m.id).delete().catch(()=>{});d.append(x)}ms.append(d)});
+    ms.scrollTop=ms.scrollHeight;
+  }
+  cb.onclick=()=>{isOpen=!isOpen;cp.classList.toggle("hide",!isOpen);cb.textContent=isOpen?"✕ Schließen":"💬 Chat";if(isOpen){draw();inp.focus()}};
+  chatSet=(path,title)=>{if(path==="chat")ctx=null;else if(!path.startsWith("channels/"))ctx={path,title};if(path===chCur){fillSel();return}chCur=path;ch=path;if(unsub)unsub();msgs=[];ms.replaceChildren();fillSel();setIn();unsub=db.collection(path).orderBy("ts","desc").limit(100).onSnapshot(s=>{msgs=s.docs.map(d=>({id:d.id,...(typeof d.data==="function"?d.data():d.data)})).reverse();if(isOpen)draw()},()=>{})};
+  chatSet("chat","Allgemein");
+  $("chs").onchange=()=>{const o=$("chs").options[$("chs").selectedIndex];chatSet(o.value,o.text)};
+  db.collection("channels").orderBy("ts","asc").onSnapshot(s=>{chans=s.docs.map(d=>({id:d.id,...(typeof d.data==="function"?d.data():d.data)}));fillSel();setIn()},()=>{});
+  $("cadm").style.display=role==="admin"?"flex":"none";
+  $("cadd").onclick=async()=>{const n=$("cn").value.trim().slice(0,40);if(!n)return;try{await db.collection("channels").doc().set({name:n,important:$("cimp").checked,ts:Date.now(),by:uname});$("cn").value=""}catch(e){}};
+  function fillSel(){const s=$("chs");s.replaceChildren();s.append(new Option("💬 Allgemein","chat"));if(ctx)s.append(new Option("📄 "+ctx.title,ctx.path));chans.slice().sort((a,b)=>(b.important?1:0)-(a.important?1:0)||(a.ts||0)-(b.ts||0)).forEach(c=>s.append(new Option((c.important?"📌 ":"# ")+c.name,"channels/"+c.id+"/chat")));s.value=ch}
+  function setIn(){const m=chans.find(c=>"channels/"+c.id+"/chat"===ch);const ok=role!=="reader"&&!(m&&m.important&&role!=="admin");$("ci").parentNode.style.display=ok?"flex":"none";$("cro").style.display=ok?"none":"block";$("cro").textContent=role==="reader"?"👀 Mit dem Lese-Code kannst du nur mitlesen.":"📌 In diesem Kanal schreiben nur Admins."}
+  async function send(){const t=inp.value.trim().slice(0,500);if(!t||$("ci").parentNode.style.display==="none")return;inp.value="";try{await db.collection(ch).doc().set({text:t,uid:me||"",name:uname,ts:Date.now()})}catch(e){inp.value=t}}
+  $("cs").onclick=send;inp.onkeydown=e=>{if(e.key==="Enter")send()};
+}
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("zauberwiki:"+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+let role="",sess={inv:"",exp:0},hb=null,ownerFlag=false;
+const hex2b=h=>Uint8Array.from(h.match(/../g),x=>parseInt(x,16));
+const b2s=b=>btoa(String.fromCharCode(...b)),s2b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const vkey=k=>crypto.subtle.importKey("raw",hex2b(k),"AES-GCM",false,["encrypt","decrypt"]);
+async function encT(text,k){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},await vkey(k),new TextEncoder().encode(text)));return {iv:b2s(iv),ct:b2s(ct)}}
+async function decT(o,k){try{return new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:s2b(o.iv)},await vkey(k),s2b(o.ct)))}catch(e){return null}}
+const dd=d=>typeof d.data==="function"?d.data():d.data;
+const norm=c=>c.toUpperCase().replace(/[^A-Z0-9]/g,"");
+function sidGet(){if(me)return String(me).replace(/[^A-Za-z0-9_-]/g,"_");let s=LS.get("zwsid");if(!s){s=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>b.toString(16).padStart(2,"0")).join("");LS.set("zwsid",s)}return s}
+async function isBanned(){try{return (await db.collection("bans").get()).docs.some(d=>d.id===sidGet())}catch(e){return false}}
+async function invites(){try{return (await db.collection("invites").get()).docs.map(d=>({id:d.id,...dd(d)}))}catch(e){return []}}
+async function findInvite(code){const h=await sha(norm(code));return (await invites()).find(i=>i.hash===h&&i.expires>Date.now())||null}
+async function inviteValid(id){try{const x=(await db.collection("invites").get()).docs.find(d=>d.id===id);return !!x&&dd(x).expires>Date.now()}catch(e){return true}}
+function forceOut(msg,again){
+  if(hb){clearInterval(hb);hb=null}
+  LS.del("zw");["app","who","cp","cb"].forEach(i=>$(i).classList.add("hide"));
+  const g=$("gate");g.replaceChildren();g.classList.remove("hide");const pg=el("div","page");g.append(pg);
+  pg.append(el("h2",0,again?"⏱ Zugang beendet":"🚫 Entfernt"),el("p",0,msg));
+  if(again){const b=el("button","p","Neu anmelden");b.onclick=()=>location.reload();pg.append(b)}
+}
+function startSession(){
+  const id=sidGet(),since=Date.now();
+  const touch=async()=>{
+    try{await db.collection("sessions").doc(id).set({name:uname,role,seen:Date.now(),since,owner:!!ownerFlag})}catch(e){}
+    if(!ownerFlag&&sess.inv&&(Date.now()>sess.exp||!(await inviteValid(sess.inv))))forceOut("Dein Zeit-Code ist abgelaufen oder wurde widerrufen.",true);
+  };
+  touch();hb=setInterval(touch,60000);
+  db.collection("bans").onSnapshot(s=>{if(!ownerFlag&&s.docs.some(d=>d.id===id))forceOut("Du wurdest vom Admin entfernt.",false)},()=>{});
+}
+function openAdmin(){
+  const f=$("form");f.replaceChildren();const pg=el("div","page");f.append(pg);const un=[];
+  const back=el("button",0,"← Zurück");back.onclick=()=>{un.forEach(u=>u());show("list")};
+  const b1=el("div"),b2=el("div"),b3=el("div"),b4=el("div"),out=el("div","tip");out.style.display="none";
+  const rs=el("select");[["member","✏️ Mitglied"],["reader","👀 Nur lesen"]].forEach(([v,l])=>rs.append(new Option(l,v)));
+  const ds=el("select");[["3600000","1 Stunde"],["86400000","1 Tag"],["604800000","7 Tage"],["2592000000","30 Tage"]].forEach(([v,l])=>ds.append(new Option(l,v)));
+  const lab=el("input");lab.type="text";lab.maxLength=40;lab.placeholder="Für wen? (optional)";
+  const gen=el("button","p","Code erzeugen"),row=el("div","row"),c1=el("div"),c2=el("div");c1.append(rs);c2.append(ds);row.append(c1,c2);
+  const lk=el("select");[["cat","📁 Kategorie"],["eff","✨ Effekt-Art"]].forEach(([v,l])=>lk.append(new Option(l,v)));const ln=el("input");ln.type="text";ln.maxLength=30;ln.placeholder="Neuer Name …";const la=el("button","p","+ Hinzufügen");la.onclick=async()=>{const n=ln.value.trim().slice(0,30);if(!n)return;try{await db.collection("lists").doc().set({kind:lk.value,name:n,by:uname});ln.value=""}catch(e){la.textContent="Fehler"}};const lrow=el("div","row"),l1=el("div"),l2=el("div");l1.append(lk,ln);l2.append(la);lrow.append(l1,l2);
+  const bc=el("div");
+  const showCodes=async()=>{bc.replaceChildren();
+    if(!vk){const i=el("input");i.type="password";i.placeholder="Admin-Code eingeben";const b=el("button",0,"Codes anzeigen");b.onclick=async()=>{const h=await sha(i.value);if(curCodes&&curCodes.admin&&h!==curCodes.admin){b.textContent="Falscher Code";return}vk=await sha("vault:"+i.value);showCodes();render()};bc.append(el("p","mu","Gib einmal den Admin-Code ein, um die Codes zu sehen."),i,b);return}
+    if(!cfgVault){bc.append(el("p","mu","Noch nicht verfügbar: Der Besitzer muss die Codes einmal unter „🔑 Codes“ neu speichern."));return}
+    let o=null;try{o=JSON.parse(await decT(cfgVault,vk))}catch(e){}
+    if(!o){bc.append(el("p","mu","Mit diesem Schlüssel sind die Codes nicht lesbar."));return}
+    [["admin","👑 Admin"],["member","✏️ Mitglied"],["reader","👀 Nur lesen"]].forEach(([k,l])=>{const r=el("div","row2");r.append(el("span",0,l),el("b",0,o[k]||"–"));bc.append(r)});
+  };showCodes();
+  pg.append(back,el("h2",0,"👥 Zugang verwalten"),el("h4",0,"Zugangscodes"),bc,el("h4",0,"Gerade online"),b1,el("h4",0,"Entfernte Personen"),b2,el("h4",0,"Zeit-Code erzeugen"),row,el("label",0,"Bezeichnung"),lab,el("div","acts"),out,el("h4",0,"Aktive Zeit-Codes"),b3,el("h4",0,"Kategorien & Effekt-Arten"),lrow,b4);
+  out.previousSibling.append(gen);
+  let ss=[],bs=[],iv=[],cl=[];
+  gen.onclick=async()=>{
+    const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";const raw=Array.from(crypto.getRandomValues(new Uint8Array(12)),x=>A[x%32]).join("");const code=raw.match(/.{4}/g).join("-");const exp=Date.now()+Number(ds.value);
+    try{await db.collection("invites").doc().set({hash:await sha(raw),enc:vk?await encT(code,vk):null,role:rs.value,expires:exp,label:lab.value.trim(),by:uname,created:Date.now()});out.style.display="block";out.textContent="Neuer Code (wird nur jetzt angezeigt): "+code+" – gültig bis "+new Date(exp).toLocaleString("de-DE");lab.value=""}
+    catch(e){out.style.display="block";out.textContent="Das hat nicht geklappt."}
+  };
+  const RN={admin:"Admin",member:"Mitglied",reader:"Nur lesen"};
+  const render=()=>{
+    const now=Date.now(),me2=sidGet();b1.replaceChildren();b2.replaceChildren();b3.replaceChildren();b4.replaceChildren();cl.forEach(x=>{const r=el("div","row2");r.append(el("span",0,({cat:"📁 Kategorie (Tricks): ",eff:"✨ Effekt-Art: ",tcat:"📌 Punkt (Techniken): ",gcat:"📌 Punkt (Gimmicks): "})[x.kind]||""+x.name));const d=el("button",0,"Entfernen");d.onclick=()=>db.collection("lists").doc(x.id).delete().catch(()=>{});r.append(d);b4.append(r)});
+    const on=ss.filter(s=>now-(s.seen||0)<180000);
+    if(!on.length)b1.append(el("p","mu","Niemand online."));
+    on.forEach(s=>{const r=el("div","row2");r.append(el("span",0,s.name+" · "+(RN[s.role]||"")+(s.id===me2?" (du)":"")));
+      if(s.id!==me2&&!s.owner&&(s.role!=="admin"||ownerFlag)){const k=el("button",0,"🚪 Rauswerfen");k.onclick=async()=>{try{await db.collection("bans").doc(s.id).set({name:s.name,by:uname,ts:Date.now()})}catch(e){k.textContent="Fehler"}};r.append(k)}
+      b1.append(r)});
+    if(!bs.length)b2.append(el("p","mu","Niemand entfernt."));
+    bs.forEach(x=>{const r=el("div","row2");r.append(el("span",0,x.name||"?"));const u=el("button",0,"Wieder zulassen");u.onclick=()=>db.collection("bans").doc(x.id).delete().catch(()=>{});r.append(u);b2.append(r)});
+    const act=iv.filter(i=>i.expires>now);
+    if(!act.length)b3.append(el("p","mu","Keine aktiven Zeit-Codes."));
+    act.forEach(i=>{const r=el("div","row2");const sp=el("span",0,(i.role==="member"?"✏️":"👀")+" "+(i.label||"ohne Bezeichnung")+" · bis "+new Date(i.expires).toLocaleString("de-DE"));r.append(sp);if(i.enc&&vk)decT(i.enc,vk).then(c=>{if(c)sp.textContent+=" · Code: "+c});const w=el("button",0,"Widerrufen");w.onclick=()=>db.collection("invites").doc(i.id).delete().catch(()=>{});r.append(w);b3.append(r)});
+  };
+  const sub=(c,fn)=>un.push(db.collection(c).onSnapshot(s=>{fn(s.docs.map(d=>({id:d.id,...dd(d)})));render()},()=>{}));
+  sub("sessions",x=>ss=x);sub("bans",x=>bs=x);sub("invites",x=>iv=x);sub("lists",x=>cl=x);
+  const t=setInterval(render,30000);un.push(()=>clearInterval(t));
+  show("form");
+}
+const canEdit=x=>role==="admin"||(role==="member"&&!x.locked);
+function lockNote(p,x){if(x.locked)p.append(el("p","mu","🔒 Gesperrt – nur Admins dürfen ändern oder löschen."))}
+function adminBtns(coll,x,a,after){
+  if(role!=="admin")return;
+  const l=el("button",0,x.locked?"🔓 Entsperren":"🔒 Sperren");
+  l.onclick=async()=>{try{await db.collection(coll).doc(x.id).update({locked:!x.locked});x.locked=!x.locked;after()}catch(e){l.textContent="Fehler"}};
+  const d=el("button",0,"🗑 Löschen");let arm=false;
+  d.onclick=async()=>{if(!arm){arm=true;d.textContent="Wirklich löschen?";setTimeout(()=>{arm=false;d.textContent="🗑 Löschen"},4000);return}
+    try{await db.collection(coll).doc(x.id).delete();show("list")}catch(e){d.textContent="Fehler"}};
+  if(coll==="tricks"||coll==="techniques"){const tl=el("button",0,x.toLearn?"🎯 Zu-lernen entfernen":"🎯 Als „Zu lernen“ markieren");tl.onclick=async()=>{try{await db.collection(coll).doc(x.id).update({toLearn:!x.toLearn});x.toLearn=!x.toLearn;after()}catch(e){tl.textContent="Fehler"}};a.append(tl)}
+  a.append(l,d);
+}
+async function gateInit(){
+  const g=$("gate");
+  if(!db){g.replaceChildren(el("p","mu","Die gemeinsame Datenbank ist hier nicht verfügbar – bitte anmelden."));return}
+  let cfg=null,owner=false;
+  try{const s=await db.collection("config").doc("access").get();const d=typeof s.data==="function"?s.data():s.data;if(d)cfg=d}catch(e){}
+  try{owner=uapi?!!(await uapi.isOwner()):false}catch(e){}
+  const codes=cfg?(cfg.codes||(cfg.hash?{member:cfg.hash}:null)):null;cfgVault=(cfg&&cfg.vault)||null;
+  let saved=null;try{saved=JSON.parse(LS.get("zw")||"null")}catch(e){}
+  if(owner&&saved&&saved.o&&saved.n){unlock(saved.n,"admin",owner,codes);return}
+  if(!owner&&saved&&saved.n&&saved.inv&&saved.exp>Date.now()&&await inviteValid(saved.inv)&&!(await isBanned())){sess={inv:saved.inv,exp:saved.exp};unlock(saved.n,saved.r,owner,codes);return}
+  if(codes&&saved&&saved.n&&saved.r&&codes[saved.r]&&codes[saved.r]===saved.h&&(owner||!(await isBanned()))){vk=saved.vk||"";unlock(saved.n,saved.r,owner,codes);return}
+  gateForm(codes,owner);
+}
+function gateForm(codes,owner){
+  const g=$("gate");g.replaceChildren();g.classList.remove("hide");$("app").classList.add("hide");const pg=el("div","page");g.append(pg);
+  if(!codes&&!owner)codes={};
+  if(!codes){codesForm(null,owner,pg,"",null);return}
+  pg.append(el("h2",0,"🔒 Anmelden"),el("p","mu","Gib deinen Namen und deinen Zugangscode ein."));
+  pg.append(el("label",0,"Dein Name"));const n=el("input");n.type="text";n.maxLength=30;n.value=LS.get("zwn")||"";pg.append(n);
+  pg.append(el("label",0,"Zugangscode"));const c=el("input");c.type="password";pg.append(c);
+  const msg=el("p","mu"),b=el("button","p","Eintreten");
+  const go=async()=>{
+    const name=n.value.trim(),code=c.value;
+    if(!name||!code){msg.textContent="Bitte Name und Code eingeben.";return}
+    b.disabled=true;
+    try{const h=await sha(code);let r=["admin","member","reader"].find(x=>codes[x]&&codes[x]===h),inv=null;if(!r){inv=await findInvite(code);if(inv)r=inv.role}if(r&&!owner&&await isBanned()){msg.textContent="Du wurdest vom Admin entfernt.";b.disabled=false;return}
+      if(!r){msg.textContent="Falscher Code.";b.disabled=false;return}
+      sess={inv:inv?inv.id:"",exp:inv?inv.expires:0};vk=(r==="admin"&&!inv)?await sha("vault:"+code):"";LS.set("zw",JSON.stringify({n:name,h,r,inv:sess.inv,exp:sess.exp,vk}));LS.set("zwn",name);unlock(name,r,owner,codes);
+    }catch(e){msg.textContent="Das hat nicht geklappt.";b.disabled=false}
+  };
+  b.onclick=go;c.onkeydown=e=>{if(e.key==="Enter")go()};
+  const a=el("div","acts");a.append(b);
+  if(owner){const ob=el("button",0,"Als Besitzer eintreten (ohne Code)");ob.onclick=()=>{const name=n.value.trim();if(!name){msg.textContent="Bitte zuerst deinen Namen eingeben.";return}LS.set("zw",JSON.stringify({n:name,o:1}));LS.set("zwn",name);unlock(name,"admin",owner,codes)};a.append(ob)}
+  pg.append(msg,a);
+}
+function codesForm(codes,owner,pg,name,back){
+  pg.append(el("h2",0,"🔑 Zugangscodes festlegen"),el("p","mu","Bis zu drei Codes. Leere Felder lassen den bisherigen Code unverändert."));
+  pg.append(el("label",0,"Dein Name"));const n=el("input");n.type="text";n.maxLength=30;n.value=name||LS.get("zwn")||"";pg.append(n);
+  const F={};[["admin","👑 Admin-Code (alles, auch löschen & sperren)"],["member","✏️ Mitglieder-Code (lesen, Tricks anlegen, chatten)"],["reader","👀 Lese-Code (nur lesen)"]].forEach(([k,l])=>{pg.append(el("label",0,l));const i=el("input");i.type="password";i.placeholder=codes&&codes[k]?"(gesetzt – leer lassen = behalten)":"(noch nicht gesetzt)";F[k]=i;pg.append(i)});
+  const msg=el("p","mu"),b=el("button","p","Speichern");
+  b.onclick=async()=>{
+    const nm=n.value.trim();if(!nm){msg.textContent="Bitte Namen eingeben.";return}
+    const nc={...(codes||{})};
+    const pl={};for(const k in F){const v=F[k].value;if(v){nc[k]=await sha(v);pl[k]=v}}
+    if(!nc.admin&&!nc.member&&!nc.reader){msg.textContent="Mindestens ein Code ist nötig.";return}
+    b.disabled=true;
+    try{let vt=pl.admin?await sha("vault:"+pl.admin):vk;let old={};if(cfgVault&&vk){const j=await decT(cfgVault,vk);if(j){try{old=JSON.parse(j)}catch(e){}}}const vlt=vt?await encT(JSON.stringify({...old,...pl}),vt):(Object.keys(pl).length?null:cfgVault);await db.collection("config").doc("access").set({codes:nc,vault:vlt||null,updated:Date.now()});cfgVault=vlt||null;if(vt)vk=vt;LS.set("zw",JSON.stringify({n:nm,o:1}));LS.set("zwn",nm);unlock(nm,"admin",owner,nc)}
+    catch(e){msg.textContent="Speichern nicht möglich.";b.disabled=false}
+  };
+  const a=el("div","acts");a.append(b);
+  if(back){const c=el("button",0,"Abbrechen");c.onclick=back;a.append(c)}
+  pg.append(msg,a);
+}
+function unlock(name,r,owner,codes){
+  uname=name;role=r;$("gate").classList.add("hide");$("app").classList.remove("hide");
+  const w=$("who");w.classList.remove("hide");w.replaceChildren(document.createTextNode("👤 "+name+" · "+({admin:"Admin",member:"Mitglied",reader:"Nur lesen"})[r]));
+  const lo=el("button",0,"Abmelden");lo.onclick=()=>{LS.del("zw");location.reload()};w.append(lo);
+  if(owner){const cb2=el("button",0,"🔑 Codes");cb2.onclick=()=>{const g=$("gate");g.replaceChildren();g.classList.remove("hide");$("app").classList.add("hide");const pg=el("div","page");g.append(pg);codesForm(codes,owner,pg,name,()=>unlock(name,r,owner,codes))};w.append(cb2)}
+  $("add").classList.toggle("hide",r==="reader");ownerFlag=owner;curCodes=codes;if(r==="admin"){const ab=el("button",0,"👥 Verwalten");ab.onclick=openAdmin;w.append(ab)}if(!hb)startSession();
+  if(!chatOn){chatOn=true;initChat()}
+  renderList();
+}
+function slug(n){const s=n.toLowerCase().replace(/ß/g,"ss").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return s||"t"+Date.now()}
+const pOf=x=>x.parents||(x.parent?[x.parent]:[]);
+const mfOk=(t,pre)=>{const m=marks[(pre||"")+t.id]||{};return !mf||(mf==="learned"&&m.state==="learned")||(mf==="learning"&&m.state==="learning")||(mf==="fav"&&!!m.fav)||(mf==="toLearn"&&!!t.toLearn)};
+function loadMarks(){
+  try{marks=JSON.parse(LS.get("zwmarks")||"{}")}catch(e){marks={}}
+  if(me&&db){try{db.collection("data/users/"+me).onSnapshot(s=>{const o={};s.docs.forEach(d=>{if(d.id.startsWith("mark_"))o[d.id.slice(5)]=dd(d)});marks={...marks,...o};renderList()},()=>{})}catch(e){}}
+}
+async function setMark(id,patch){
+  const c2={state:"",fav:false,...(marks[id]||{}),...patch};marks[id]=c2;
+  try{const m=JSON.parse(LS.get("zwmarks")||"{}");m[id]=c2;LS.set("zwmarks",JSON.stringify(m))}catch(e){}
+  if(me&&db){try{await db.collection("data/users/"+me).doc("mark_"+id).set({state:c2.state||"",fav:!!c2.fav,ts:Date.now()})}catch(e){}}
+  renderList();
+}
+function markBar(t,lab){
+  const w=el("div","acts");w.style.marginTop="8px";
+  const draw=()=>{w.replaceChildren();const m=marks[t.id]||{};
+    [["learned","✅ Gelernt"],["learning","📖 Am Lernen"]].forEach(([k,l])=>{const b=el("button","chip"+(m.state===k?" on":""),l);b.onclick=()=>{setMark(t.id,{state:m.state===k?"":k});draw()};w.append(b)});
+    const f=el("button","chip"+(m.fav?" on":""),lab||"⭐ Lieblingstrick");f.onclick=()=>{setMark(t.id,{fav:!m.fav});draw()};w.append(f);
+    w.append(el("span","mu","nur für dich sichtbar"))};
+  draw();return w;
+}
+function catList(tb){tb=tb||tab;if(tb==="t")return CATS;const kd=tb==="g"?"gcat":"tcat";const l=CATS.slice(0,BASEC);customLists.filter(x=>x.kind===kd).forEach(x=>{if(!l.some(c=>c[0]===x.name))l.push([x.name,"📌"])});return l}
+const techByName=n=>techniques.find(x=>x.name.toLowerCase()===String(n).trim().toLowerCase());
+function rich(text,from,cls){
+  const d=el("div",cls||"");const names=techniques.map(x=>x.name).filter(Boolean).sort((a,b)=>b.length-a.length);
+  if(!names.length){d.textContent=text;return d}
+  const re=new RegExp("("+names.join("|")+")","gi");
+  text.split(re).forEach((part,i)=>{if(i%2===0){if(part)d.append(document.createTextNode(part));return}
+    const x=techByName(part);if(!x){d.append(document.createTextNode(part));return}
+    const a=el("a","tl",part);a.href="#";a.onclick=e=>{e.preventDefault();openTech(x.id,from)};d.append(a)});
+  return d;
+}
+function syncTabs(){$("tt").classList.toggle("on",tab==="t");$("tn").classList.toggle("on",tab==="n");$("tg").classList.toggle("on",tab==="g");if(lastTab!==tab){cat="";lastTab=tab}$("mf").style.display="";$("chips2").classList.toggle("hide",tab!=="t");chips();$("q").placeholder=tab==="t"?"Tricks durchsuchen …":tab==="g"?"Gimmicks durchsuchen …":"Techniken durchsuchen …";$("add").textContent=tab==="t"?"+ Neu":tab==="g"?"+ Gimmick":"+ Technik";renderList()}
+$("tt").onclick=()=>{tab="t";syncTabs()};$("tn").onclick=()=>{tab="n";syncTabs()};$("tg").onclick=()=>{tab="g";syncTabs()};
+function renderTechs(){
+  const q=$("q").value.toLowerCase(),box=$("items");box.replaceChildren();
+  if(!db){box.append(el("p","mu","Die gemeinsame Datenbank ist hier nicht verfügbar."));return}
+  const f=techniques.filter(t=>(tab==="g")===(t.kind==="gimmick")&&(!cat||t.category===cat)&&mfOk(t,"T")&&(q||cat||mf||!pOf(t).some(i=>techniques.some(y=>y.id===i)))&&(!q||(t.name+t.summary+t.explanation).toLowerCase().includes(q)));
+  if(!f.length){box.append(el("p","mu",techniques.length?"Nichts gefunden.":"Noch keine Techniken – lege die erste an!"));return}
+  f.forEach(t=>{const d=el("div","c");const n=tricks.filter(x=>(x.techs||[]).some(y=>y.toLowerCase()===t.name.toLowerCase())).length;
+    d.append(el("div","ic",t.kind==="gimmick"?"🧰":"🧩"),el("h3",0,t.name),el("p",0,t.summary));const nk=techniques.filter(x=>pOf(x).includes(t.id)).length;const m=el("div");m.append(el("span","b",n+(n===1?" Trick":" Tricks")));if(nk)m.append(el("span","b",nk+(nk===1?" Unterpunkt":" Unterpunkte")));if(t.toLearn)m.append(el("span","b","🎯 Zu lernen"));const mk=marks["T"+t.id]||{};if(mk.state==="learned")m.append(el("span","b d0","✅ Gelernt"));if(mk.state==="learning")m.append(el("span","b d1","📖 Am Lernen"));if(mk.fav)m.append(el("span","b","⭐"));
+    if(t.category)m.append(el("span","b",t.category));if(t.difficulty)m.append(el("span",dc(t.difficulty),t.difficulty));if(t.videoId||t.videoLink)m.append(el("span","b","▶ Video"));pOf(t).forEach(i=>{const pp=techniques.find(x=>x.id===i);if(pp)m.append(el("span","b","↳ "+pp.name))});d.append(m);d.onclick=()=>openTech(t.id);box.append(d)});
+}
+function openTech(id,from){
+  const t=techniques.find(x=>x.id===id);if(!t)return;cur=null;curT=t;curFrom=from||null;
+  if(chatSet&&lastOpen!=="T"+t.id)chatSet("techniques/"+t.id+"/chat","Diskussion: "+t.name);lastOpen="T"+t.id;
+  const v=$("view");v.replaceChildren();
+  const pids=pOf(t);const par=techniques.find(x=>x.id===curVia&&pids.includes(x.id))||techniques.find(x=>pids.includes(x.id));const b=el("button",0,par?"← "+par.name:from?"← Zurück zum Trick":(t.kind==="gimmick"?"← Alle Gimmicks":"← Alle Techniken"));b.onclick=()=>{if(par)openTech(par.id,from);else if(from)open(from);else{tab=t.kind==="gimmick"?"g":"n";syncTabs();show("list")}};v.append(b);
+  const p=el("div","page");v.append(p);
+  const m0=el("div");m0.append(el("span","b",t.kind==="gimmick"?"🧰 Gimmick":"🧩 Technik"));if(t.toLearn)m0.append(el("span","b","🎯 Zu lernen"));if(t.category)m0.append(el("span","b",(ICON[t.category]||"📌")+" "+t.category));if(t.difficulty)m0.append(el("span",dc(t.difficulty),t.difficulty));
+  p.append(m0,el("h2",0,t.name));
+  const pr=pOf(t).map(i=>techniques.find(x=>x.id===i)).filter(Boolean);
+  if(pr.length){const w=el("p","mu","Gehört zu: ");pr.forEach(q2=>{const a=el("a","tl",q2.name);a.href="#";a.onclick=e=>{e.preventDefault();openTech(q2.id,from)};w.append(a)});p.append(w)}
+  p.append(el("p","lead",t.summary),markBar({id:"T"+t.id},"⭐ Favorit"));
+  if(t.videoId){const vd=el("video");vd.controls=true;vd.preload="metadata";vd.src="/_blob/"+t.videoId;p.append(vd)}
+  if(/^https:\/\//.test(t.videoLink||"")){const a=el("a","vl","▶ Video ansehen");a.href=t.videoLink;a.target="_blank";a.rel="noopener noreferrer";const w=el("p");w.append(a);p.append(w)}
+  if(t.props)p.append(el("h4",0,"Das brauchst du"),el("div",0,t.props));
+  p.append(el("h4",0,"So funktioniert's"));
+  t.explanation.split("\n").filter(l=>l.trim()).forEach(l=>{const mt=l.match(/^\s*(\d+)[.)]\s*(.*)$/);const s=el("div","step");if(mt){s.append(el("div","n",mt[1]),rich(mt[2],from))}else s.append(rich(l,from));p.append(s)});
+  if(t.tips)p.append(el("h4",0,"Tipps & Varianten"),rich(t.tips,from,"tip"));
+  const pts=t.points||[];if(pts.length){p.append(el("h4",0,t.kind==="gimmick"?"Effekte":"Unterpunkte"));pts.forEach(x=>{const c=el("div","sec2");c.append(el("b",0,x.title),rich(x.text||"",from));p.append(c)})}
+  const kids=techniques.filter(x=>pOf(x).includes(t.id));
+  p.append(el("h4",0,t.kind==="gimmick"?"Effekte darunter":"Unterpunkte (z. B. mit Karten)"));
+  if(!kids.length)p.append(el("p","mu","Noch keine Unterpunkte."));
+  const g=el("div","grid");kids.forEach(k=>{const d=el("div","c");const m1=el("div");if(k.difficulty)m1.append(el("span",dc(k.difficulty),k.difficulty));const nk2=techniques.filter(x=>pOf(x).includes(k.id)).length;if(nk2)m1.append(el("span","b",nk2+" Unterpunkte"));if(k.videoId||k.videoLink)m1.append(el("span","b","▶ Video"));d.append(el("div","ic",k.kind==="gimmick"?"🧰":"🧩"),el("h3",0,k.name),m1,el("p",0,k.summary));d.onclick=()=>{curVia=t.id;openTech(k.id,from)};g.append(d)});p.append(g);
+  if(role!=="reader"&&canEdit(t)){const nb=el("button",0,"+ "+(t.kind==="gimmick"?"Effekt":"Unterpunkt")+" darunter anlegen");nb.onclick=()=>editTech({parents:[t.id]},from,t.kind==="gimmick"?"gimmick":"tech");p.append(nb)}
+  p.append(el("h4",0,"Tricks mit dieser Technik"));
+  const used=tricks.filter(x=>(x.techs||[]).some(y=>y.toLowerCase()===t.name.toLowerCase()));
+  if(!used.length)p.append(el("p","mu","Noch kein Trick verweist auf diese Technik."));
+  used.forEach(x=>{const w=el("div"),a=el("a","tl",x.title);a.href="#";a.onclick=e=>{e.preventDefault();open(x.id)};w.append(a);p.append(w)});
+  p.append(el("p","mu","Zuletzt bearbeitet: "+new Date(t.updated||0).toLocaleDateString("de-DE")+(t.editorName?" von "+t.editorName:"")));
+  const e=el("button","p","✎ Bearbeiten");e.onclick=()=>editTech(t,from);e.style.display=canEdit(t)?"":"none";const dsc=el("button",0,"💬 Diskussion");dsc.onclick=()=>{if($("cp").classList.contains("hide"))$("cb").click()};
+  const a=el("div","acts");a.append(e,dsc);adminBtns("techniques",t,a,()=>openTech(t.id,from));lockNote(p,t);p.append(a);show("view");
+}
+function editTech(t,from,kind){
+  t=t||{};kind=t.kind||kind||"tech";const f=$("form");f.replaceChildren();const pg=el("div","page");f.append(pg);
+  pg.append(el("h2",0,t.id?(kind==="gimmick"?"Gimmick bearbeiten":"Technik bearbeiten"):(kind==="gimmick"?"Neues Gimmick anlegen":"Neue Technik anlegen")));
+  const F={};const fld=(k,l,area,ph)=>{pg.append(el("label",0,l));const i=area?el("textarea"):el("input");if(!area)i.type="text";if(ph)i.placeholder=ph;i.value=t[k]||"";F[k]=i;pg.append(i)};
+  fld("name","Name der Technik",false,"z. B. Misdirection");
+  pg.append(el("label",0,"Gehört zu (mehrere möglich – nichts gewählt = oberste Ebene)"));const ps=el("select");ps.multiple=true;ps.size=5;ps.style.width="100%";
+  const desc=new Set([t.id]);let chg=true;while(chg){chg=false;techniques.forEach(x=>{if(pOf(x).some(i=>desc.has(i))&&!desc.has(x.id)){desc.add(x.id);chg=true}})}
+  techniques.filter(x=>(x.kind==="gimmick")===(kind==="gimmick")&&!desc.has(x.id)).forEach(x=>{const o=new Option((pOf(x).length?"↳ ":"")+x.name,x.id);o.selected=pOf(t).includes(x.id);ps.append(o)});pg.append(ps);
+  fld("summary","Kurzbeschreibung",true);
+  fld("explanation","Erklärung – ein Schritt pro Zeile, z. B. „1. …“. Namen anderer Techniken werden automatisch verlinkt.",true);F.explanation.style.minHeight="200px";
+  const msg=el("p","mu"),s=el("button","p","Speichern"),c=el("button",0,"Abbrechen");
+  const dr=el("div","row"),d1=el("div");d1.append(el("label",0,"Schwierigkeit"));F.difficulty=el("select");F.difficulty.append(new Option("– keine –",""));DIFF.forEach(c=>F.difficulty.append(new Option(c,c)));F.difficulty.value=t.difficulty||"";d1.append(F.difficulty);const d2=el("div");d2.append(el("label",0,"Kategorie / Punkt"));F.category=el("select");F.category.append(new Option("– keine –",""));catList(kind==="gimmick"?"g":"n").forEach(c=>F.category.append(new Option(c[1]+" "+c[0],c[0])));F.category.value=t.category||"";d2.append(F.category);dr.append(d1,d2);pg.append(dr);
+  fld("props","Das brauchst du",false,"z. B. Spielkarten");fld("tips","Tipps & Varianten (optional)",true);fld("videoLink","Video-Link (optional, https://…)",false,"https://…");
+  let vfile=null,vrm=null;if(assets){pg.append(el("label",0,"Video hochladen (optional, bis 20 MB)"));const fi=el("input");fi.type="file";fi.accept="video/*";fi.onchange=()=>{vfile=fi.files[0]||null};pg.append(fi);if(t.videoId){const l=el("label");vrm=el("input");vrm.type="checkbox";l.append(vrm,document.createTextNode(" Vorhandenes Video entfernen"));pg.append(l)}}
+  const pts=(t.points||[]).map(x=>({...x}));const pbox=el("div");
+  const drawP=()=>{pbox.replaceChildren();pts.forEach((x,i)=>{const w=el("div","sec2");const ti=el("input");ti.type="text";ti.placeholder="Titel";ti.value=x.title||"";ti.oninput=()=>{x.title=ti.value};const tx=el("textarea");tx.placeholder="Erklärung";tx.value=x.text||"";tx.oninput=()=>{x.text=tx.value};const rm=el("button",0,"✕ Entfernen");rm.onclick=()=>{pts.splice(i,1);drawP()};w.append(ti,tx,rm);pbox.append(w)})};drawP();
+  const pa=el("button",0,kind==="gimmick"?"+ Effekt hinzufügen":"+ Unterpunkt hinzufügen");pa.onclick=()=>{pts.push({title:"",text:""});drawP()};
+  pg.append(el("label",0,kind==="gimmick"?"Effekte (mit Erklärung)":"Unterpunkte"),pbox,pa);
+  c.onclick=()=>t.id?openTech(t.id,from):(from?open(from):show("list"));
+  s.onclick=async()=>{
+    const name=F.name.value.replace(/[^\p{L}\p{N} \-]/gu,"").trim(),sm=F.summary.value.trim(),ex=F.explanation.value.trim();
+    if(!name||!sm||!ex){msg.textContent="Name (nur Buchstaben, Zahlen, Leerzeichen), Kurzbeschreibung und Erklärung sind Pflicht.";return}
+    const id=t.id||slug(name);
+    if(!t.id&&techniques.some(x=>x.id===id||x.name.toLowerCase()===name.toLowerCase())){msg.textContent="Diese Technik gibt es schon.";return}
+    s.disabled=true;msg.textContent="Speichere …";
+    let vid=vrm&&vrm.checked?"":(t.videoId||"");const vl=F.videoLink.value.trim();if(vl&&!/^https:\/\//.test(vl)){msg.textContent="Der Video-Link muss mit https:// beginnen.";s.disabled=false;return}if(vfile){if(vfile.size>20*1048576){msg.textContent="Das Video ist größer als 20 MB.";s.disabled=false;return}try{vid=(await assets.upload(vfile)).id}catch(e){msg.textContent="Video-Upload fehlgeschlagen.";s.disabled=false;return}}
+    const rec={name,summary:sm,explanation:ex,kind,parents:[...ps.selectedOptions].map(o=>o.value),parent:"",category:F.category.value,difficulty:F.difficulty.value,props:F.props.value.trim(),tips:F.tips.value.trim(),videoLink:vl,videoId:vid,points:pts.filter(x=>(x.title||"").trim()).map(x=>({title:x.title.trim(),text:(x.text||"").trim()})),locked:!!t.locked,toLearn:!!t.toLearn,created:t.created||Date.now(),updated:Date.now(),editor:me||"",editorName:uname};
+    try{await db.collection("techniques").doc(id).set(rec);const i=techniques.findIndex(x=>x.id===id);if(i<0)techniques.push({id,...rec});else techniques[i]={id,...rec};openTech(id,from)}
+    catch(e){msg.textContent="Speichern nicht möglich (Berechtigung oder Verbindung).";s.disabled=false}
+  };
+  const ac=el("div","acts");ac.append(s,c);pg.append(msg,ac);show("form");
+}
+$("mf").onchange=()=>{mf=$("mf").value;renderList()};$("q").oninput=renderList;$("add").onclick=()=>tab==="t"?edit(null):editTech(null,null,tab==="g"?"gimmick":"tech");chips();renderList();
+(async()=>{
+  try{const u=await claude.use("user");if(u){uapi=u;me=await u.id()}}catch(e){}
+  try{assets=await claude.use("assets")}catch(e){}
+  try{db=await claude.use("db")}catch(e){}
+  gateInit();
+  if(!db){renderList();return}loadMarks();
+  db.collection("lists").onSnapshot(s=>{customLists=s.docs.map(d=>({id:d.id,...dd(d)}));CATS.length=BASEC;EFFECTS.length=BASEE;customLists.filter(x=>x.kind==="cat").forEach(x=>{if(!CATS.some(c=>c[0]===x.name))CATS.push([x.name,"🎴"])});customLists.filter(x=>x.kind==="eff").forEach(x=>{if(!EFFECTS.includes(x.name))EFFECTS.push(x.name)});chips();renderList()},()=>{});
+  db.collection("techniques").orderBy("name","asc").onSnapshot(s=>{techniques=s.docs.map(d=>({id:d.id,...(typeof d.data==="function"?d.data():d.data)}));renderList();if(!$("view").classList.contains("hide")){if(curT)openTech(curT.id,curFrom);else if(cur)open(cur.id)}},()=>{});
+  db.collection("tricks").orderBy("updated","desc").onSnapshot(s=>{
+    tricks=s.docs.map(d=>({id:d.id,...(typeof d.data==="function"?d.data():d.data)}));
+    renderList();if(cur&&!$("view").classList.contains("hide"))open(cur.id);
+  },()=>{});
+})();
+</script>
+</body></html>
